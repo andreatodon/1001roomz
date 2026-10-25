@@ -4,7 +4,7 @@ Il sito di 1001 Rooms: landing page in **Next.js** con i contenuti gestiti in **
 
 - Il sito è su `/`, il CMS su `/studio`.
 - Tutti i testi della landing, gli stili, le FAQ, il prezzo e la foto dell'hero si modificano dal CMS.
-- Finché Sanity non è collegato, il sito mostra i testi di partenza (in `lib/fallback.ts`), quindi si può già pubblicare.
+- Finché un contenuto non è compilato nel CMS, il sito mostra i testi di partenza (in `lib/fallback.ts`), quindi si può già pubblicare.
 
 ## Cosa si modifica dal CMS
 
@@ -20,35 +20,23 @@ Le modifiche pubblicate compaiono sul sito entro circa un minuto.
 
 ## Messa online (prima volta)
 
-### 1. Crea il progetto Sanity
-1. Vai su [sanity.io](https://www.sanity.io) e crea un account (il piano gratuito basta).
-2. Crea un nuovo progetto, con dataset `production`.
-3. Annota il **Project ID** (in sanity.io/manage → il tuo progetto).
-4. Nelle impostazioni del progetto, sezione **API → CORS origins**, aggiungi:
-   - `http://localhost:3000` (per lavorare in locale)
-   - l'indirizzo del sito su Vercel, per esempio `https://1001roomz.vercel.app`, con **Allow credentials** attivo.
+Il progetto Sanity (`p5ngpovr`, dataset `production`) è già impostato nel codice: non servono variabili d'ambiente.
 
-### 2. Pubblica su Vercel
-1. Su [vercel.com](https://vercel.com) importa il repository GitHub `1001roomz`.
-2. In **Environment Variables** aggiungi:
-   - `NEXT_PUBLIC_SANITY_PROJECT_ID` = il Project ID
-   - `NEXT_PUBLIC_SANITY_DATASET` = `production`
-3. Deploy.
+### 1. Pubblica su Vercel
+Su [vercel.com](https://vercel.com) importa il repository GitHub `1001roomz` e fai il deploy, senza cambiare nulla.
 
-### 3. Carica i contenuti di partenza nel CMS
-Dal tuo computer, nella cartella del progetto:
+### 2. Autorizza il sito su Sanity
+In [sanity.io/manage](https://www.sanity.io/manage) → progetto → **API → CORS origins** aggiungi, con **Allow credentials** attivo:
+- l'indirizzo del sito su Vercel, per esempio `https://1001roomz.vercel.app`
+- `http://localhost:3000`, se lavori anche in locale
 
-```bash
-npm install
-cp .env.example .env.local   # poi inserisci il Project ID
-npx sanity login
-npm run seed
-```
+### 3. Carica i contenuti di partenza
+Apri `https://<il-tuo-sito>/studio`, accedi con l'account Sanity, apri **Home page** e premi **Carica contenuti di partenza**. Il pulsante crea la Home page, le Impostazioni e i 5 stili con i testi attuali della landing, e sparisce una volta usato. Non sovrascrive mai contenuti già presenti.
 
-Lo script carica nel CMS i testi attuali della landing e i 5 stili, così parti già con tutto compilato.
+(In alternativa da terminale: `npx sanity login` e poi `npm run seed`.)
 
 ### 4. Usa il CMS
-Apri `https://<il-tuo-sito>/studio`, accedi con l'account Sanity e modifica. Per invitare altre persone a gestire i contenuti: sanity.io/manage → Members.
+Modifica e premi **Publish**: il sito si aggiorna entro circa un minuto. Per invitare altre persone a gestire i contenuti: sanity.io/manage → Members.
 
 ## Lavorare in locale
 
@@ -68,7 +56,8 @@ components/          i blocchi della landing
 lib/fallback.ts      testi di partenza
 lib/content.ts       lettura dei contenuti dal CMS
 sanity/schemaTypes/  la struttura dei contenuti (cosa si può modificare)
-scripts/seed.ts      caricamento iniziale dei contenuti
+lib/seedDocs.ts      contenuti di partenza per il CMS
+scripts/seed.ts      caricamento iniziale da terminale
 ```
 
 ## Prossimi passi

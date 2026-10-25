@@ -3,6 +3,7 @@
 import { visionTool } from '@sanity/vision'
 import { defineConfig } from 'sanity'
 import { structureTool } from 'sanity/structure'
+import { loadStarterContent } from './sanity/actions/loadStarterContent'
 import { apiVersion, dataset, projectId } from './sanity/env'
 import { schemaTypes, singletonTypes } from './sanity/schemaTypes'
 import { structure } from './sanity/structure'
@@ -20,9 +21,10 @@ export default defineConfig({
     templates: (templates) => templates.filter(({ schemaType }) => !singletonTypes.has(schemaType)),
   },
   document: {
-    actions: (actions, { schemaType }) =>
-      singletonTypes.has(schemaType)
-        ? actions.filter(({ action }) => action && ['publish', 'discardChanges', 'restore'].includes(action))
-        : actions,
+    actions: (actions, { schemaType }) => {
+      if (!singletonTypes.has(schemaType)) return actions
+      const kept = actions.filter(({ action }) => action && ['publish', 'discardChanges', 'restore'].includes(action))
+      return schemaType === 'homePage' ? [loadStarterContent, ...kept] : kept
+    },
   },
 })
