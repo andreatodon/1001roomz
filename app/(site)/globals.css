@@ -1,11 +1,11 @@
 :root {
-  --cream: #f7f1e2;
-  --cream-2: #f1e9d6;
+  --paper: #ffffff;
+  --paper-2: #f4f4f3;
   --ink: #1a1a18;
-  --muted: #6e6a5e;
+  --muted: #6b6b68;
   --red: #c0392b;
-  --line: rgba(26, 26, 24, 0.14);
-  --line-inv: rgba(247, 241, 226, 0.24);
+  --line: rgba(26, 26, 24, 0.12);
+  --line-inv: rgba(255, 255, 255, 0.24);
   --font-display: 'Space Grotesk', system-ui, sans-serif;
   --font-body: 'IBM Plex Sans', system-ui, sans-serif;
 }
@@ -23,7 +23,7 @@ html {
 
 body {
   margin: 0;
-  background: var(--cream);
+  background: var(--paper);
   color: var(--ink);
   font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
@@ -69,12 +69,12 @@ img {
 .divider {
   border-top: 1px solid var(--line);
 }
-.bg-cream-2 {
-  background: var(--cream-2);
+.bg-paper-2 {
+  background: var(--paper-2);
 }
 .bg-ink {
   background: var(--ink);
-  color: var(--cream);
+  color: var(--paper);
 }
 
 /* Elements */
@@ -127,7 +127,7 @@ img {
 }
 .btn {
   background: var(--ink);
-  color: var(--cream);
+  color: var(--paper);
 }
 .btn:hover {
   background: transparent;
@@ -139,7 +139,7 @@ img {
 }
 .btn-outline:hover {
   background: var(--ink);
-  color: var(--cream);
+  color: var(--paper);
 }
 .btn-lg {
   padding: 18px 34px;
@@ -193,7 +193,7 @@ img {
   position: sticky;
   top: 0;
   z-index: 10;
-  background: var(--cream);
+  background: var(--paper);
   border-bottom: 1px solid var(--line);
 }
 .nav-inner {
@@ -221,25 +221,57 @@ img {
   min-height: 44px;
 }
 
-/* Hero */
-.hero-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 64px;
+/* Hero: foto a tutta larghezza dietro il testo */
+.hero {
+  position: relative;
+  display: flex;
   align-items: center;
+  min-height: min(calc(100svh - 88px), 760px);
+  padding: 96px 0;
+  background: var(--paper-2);
+  overflow: hidden;
+}
+.hero-bg {
+  position: absolute;
+  inset: 0;
+}
+.hero-bg img {
+  object-fit: cover;
+}
+/* Velo piatto sopra la foto, per leggere il testo. Niente gradienti. */
+.hero-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(26, 26, 24, 0.5);
+}
+.hero-inner {
+  position: relative;
+  width: 100%;
 }
 .hero-copy {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 28px;
+  max-width: 680px;
+  padding: 40px 0 0 40px;
+}
+.hero-corner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 56px;
+  height: 56px;
 }
 .hero-title {
-  font-size: 56px;
-  line-height: 1.08;
+  font-size: 60px;
+  line-height: 1.06;
   font-weight: 700;
 }
 .hero-text {
-  max-width: 480px;
+  max-width: 500px;
+  color: var(--muted);
 }
 .hero-actions {
   display: flex;
@@ -248,54 +280,40 @@ img {
   gap: 28px;
   margin-top: 8px;
 }
-.hero-frame {
-  position: relative;
-  padding: 18px;
-  aspect-ratio: 4 / 5;
-  max-height: 600px;
-  width: 100%;
-  margin-left: auto;
-}
-.hero-frame .bracket {
-  position: absolute;
-  width: 56px;
-  height: 56px;
-}
-.hero-frame .bracket-tl {
-  top: 0;
-  left: 0;
-}
-.hero-frame .bracket-br {
-  bottom: 0;
-  right: 0;
-}
-.hero-photo {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  background: #d9cfb8;
-  overflow: hidden;
-}
-.hero-photo img {
-  object-fit: cover;
+.hero-btn-diamond {
+  background: var(--paper);
 }
 .hero-placeholder {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  text-align: center;
-  padding: 32px;
   font-size: 13px;
-  color: #4a463d;
-  line-height: 1.5;
+  color: var(--muted);
 }
-.hero-placeholder strong {
-  font-family: var(--font-display);
-  font-size: 15px;
+
+/* Con la foto: testo chiaro sul velo scuro */
+.hero--image {
+  color: var(--paper);
+}
+.hero--image .eyebrow,
+.hero--image .hero-text {
+  color: rgba(255, 255, 255, 0.88);
+}
+.hero--image .btn {
+  background: var(--paper);
   color: var(--ink);
+  border-color: var(--paper);
+}
+.hero--image .btn:hover {
+  background: transparent;
+  color: var(--paper);
+}
+.hero--image .btn .hero-btn-diamond {
+  background: var(--ink);
+}
+.hero--image .btn:hover .hero-btn-diamond {
+  background: var(--paper);
+}
+.hero--image a:focus-visible {
+  outline: 2px solid var(--paper);
+  outline-offset: 3px;
 }
 
 /* Two-column sections */
@@ -369,7 +387,7 @@ img {
   gap: 20px;
 }
 .style-card {
-  background: var(--cream);
+  background: var(--paper);
   border: 1px solid var(--line);
   padding: 24px;
   display: flex;
@@ -381,7 +399,7 @@ img {
 .style-card.is-dark {
   background: var(--ink);
   border-color: var(--ink);
-  color: var(--cream);
+  color: var(--paper);
 }
 .style-card h3 {
   font-size: 16px;
@@ -392,7 +410,7 @@ img {
   color: var(--muted);
 }
 .style-card.is-dark p {
-  color: rgba(247, 241, 226, 0.72);
+  color: rgba(255, 255, 255, 0.72);
 }
 .style-visual {
   flex: 1;
@@ -471,7 +489,7 @@ img {
 }
 .carousel-btn:hover:not(:disabled) {
   background: var(--ink);
-  color: var(--cream);
+  color: var(--paper);
 }
 .carousel-btn:disabled {
   opacity: 0.3;
@@ -540,10 +558,10 @@ img {
   justify-content: center;
 }
 .example-card .eyebrow {
-  color: rgba(247, 241, 226, 0.6);
+  color: rgba(255, 255, 255, 0.6);
 }
 .examples-note {
-  color: rgba(247, 241, 226, 0.75);
+  color: rgba(255, 255, 255, 0.75);
   max-width: 560px;
 }
 
@@ -632,18 +650,16 @@ img {
   .section {
     padding: 72px 0;
   }
-  .hero-grid,
   .split,
   .examples-grid {
     grid-template-columns: 1fr;
     gap: 40px;
   }
-  .hero-title {
-    font-size: 42px;
+  .hero {
+    padding: 72px 0;
   }
-  .hero-frame {
-    max-width: 480px;
-    margin: 0 auto;
+  .hero-title {
+    font-size: 44px;
   }
   .problem-body {
     padding-top: 0;
@@ -681,8 +697,20 @@ img {
   .nav-logo img {
     height: 20px;
   }
+  .hero {
+    min-height: 0;
+    padding: 56px 0;
+  }
+  .hero-copy {
+    padding: 28px 0 0 24px;
+    gap: 22px;
+  }
+  .hero-corner {
+    width: 40px;
+    height: 40px;
+  }
   .hero-title {
-    font-size: 34px;
+    font-size: 36px;
   }
   .h-section {
     font-size: 28px;

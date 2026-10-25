@@ -8,6 +8,7 @@ type Props = { home: HomePage; styles: Style[]; settings: SiteSettings }
 export function Landing({ home, styles, settings }: Props) {
   const bookingHref = settings.bookingUrl || '#prezzo'
   const external = Boolean(settings.bookingUrl)
+  const heroImage = hasImage(home.hero.image) ? home.hero.image : null
   const bookingProps = external ? { target: '_blank', rel: 'noopener noreferrer' } : {}
 
   // Sezione stili: carosello o griglia, scelto dal CMS (Home page → Sezioni → Sezione stili).
@@ -64,44 +65,40 @@ export function Landing({ home, styles, settings }: Props) {
       </header>
 
       <main id="top">
-        {/* HERO */}
-        <section className="section" style={{ paddingTop: 88, paddingBottom: 88 }}>
-          <div className="container hero-grid">
+        {/* HERO: la foto fa da sfondo al testo */}
+        <section className={`hero${heroImage ? ' hero--image' : ''}`}>
+          {heroImage && (
+            <div className="hero-bg">
+              <SanityPicture
+                image={heroImage}
+                width={2400}
+                height={1500}
+                sizes="100vw"
+                priority
+                fallbackAlt="Una stanza arredata con luce naturale"
+              />
+            </div>
+          )}
+          <div className="container hero-inner">
             <div className="hero-copy">
+              <div className="bracket bracket-tl hero-corner" aria-hidden="true" />
               <p className="eyebrow">{home.hero.eyebrow}</p>
               <h1 className="hero-title multiline">{home.hero.title}</h1>
-              <p className="lead muted hero-text">{home.hero.text}</p>
+              <p className="lead hero-text">{home.hero.text}</p>
               <div className="hero-actions">
                 <a href="#stili" className="btn">
-                  <span className="diamond-fill" style={{ background: 'var(--cream)' }} aria-hidden="true" />
+                  <span className="diamond-fill hero-btn-diamond" aria-hidden="true" />
                   {home.hero.ctaLabel}
                 </a>
                 <a href="#come-funziona" className="link-underline">
                   {home.hero.secondaryLabel}
                 </a>
               </div>
-            </div>
-
-            <div className="hero-frame">
-              <div className="bracket bracket-tl" aria-hidden="true" />
-              <div className="bracket bracket-br" aria-hidden="true" />
-              <div className="hero-photo">
-                {hasImage(home.hero.image) ? (
-                  <SanityPicture
-                    image={home.hero.image}
-                    width={960}
-                    height={1200}
-                    sizes="(max-width: 900px) 90vw, 560px"
-                    priority
-                    fallbackAlt="Una stanza arredata con luce naturale"
-                  />
-                ) : (
-                  <div className="hero-placeholder">
-                    <strong>[Foto hero: stanza reale]</strong>
-                    <span>Caricala dal CMS: Home page → Hero → Foto della stanza.</span>
-                  </div>
-                )}
-              </div>
+              {!heroImage && (
+                <p className="hero-placeholder">
+                  [Foto hero: caricala dal CMS in Home page → Hero → Foto della stanza]
+                </p>
+              )}
             </div>
           </div>
         </section>
@@ -150,7 +147,7 @@ export function Landing({ home, styles, settings }: Props) {
 
         {/* STILI */}
         <div className="divider" id="stili" />
-        <section className="section bg-cream-2">
+        <section className="section bg-paper-2">
           <div className="container">
             <div className="section-head">
               <h2 className="h-section multiline">{home.stylesSection.title}</h2>
@@ -246,7 +243,7 @@ export function Landing({ home, styles, settings }: Props) {
         </section>
 
         {/* CHIUSURA */}
-        <section className="section bg-cream-2">
+        <section className="section bg-paper-2">
           <div className="container closing">
             <h2>{home.closing.title}</h2>
             <a href="#stili" className="btn btn-lg">

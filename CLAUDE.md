@@ -48,10 +48,11 @@ sanity.config.ts            Studio: struttura, singleton, azioni
 
 ## Design
 
-- Colori, definiti come variabili CSS in `globals.css`:
-  - crema `#F7F1E2` (`--cream`), crema scuro `#F1E9D6`;
-  - inchiostro `#1A1A18` (`--ink`), grigio `#6E6A5E` (`--muted`);
+- Colori, definiti come variabili CSS in `globals.css`. Palette neutra:
+  - bianco `#FFFFFF` (`--paper`, colore base), grigio chiaro `#F4F4F3` (`--paper-2`, sezioni alterne);
+  - inchiostro `#1A1A18` (`--ink`), grigio `#6B6B68` (`--muted`);
   - rosso `#C0392B`, solo come accento: occhielli e rombi.
+- Hero: la foto (`homePage.hero.image`) è lo sfondo a tutta larghezza, sotto un velo scuro piatto; il testo è bianco. Senza foto, fondo `--paper-2` e testo scuro.
 - Font: **Space Grotesk** per titoli, pulsanti e occhielli; **IBM Plex Sans** per il testo.
 - Segni grafici: angoli a squadra (`.bracket`, ripresi dal logo) e rombi (`.diamond`, `.diamond-fill`). Niente gradienti, ombre, emoji o angoli arrotondati: i pulsanti hanno raggio 2px.
 - Logo in `public/logo.png` (scuro) e `public/logo-light.png` (chiaro, per fondi scuri).

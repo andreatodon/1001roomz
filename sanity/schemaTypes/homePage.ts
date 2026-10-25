@@ -45,7 +45,7 @@ export const homePage = defineType({
         defineField({
           name: 'image',
           title: 'Foto della stanza',
-          description: 'Formato verticale 4:5, stanza reale con luce naturale.',
+          description: 'Sfondo dell’hero, a tutta larghezza sotto il testo. Formato orizzontale, almeno 2400 px di base, stanza reale con luce naturale. Usa il punto focale per scegliere cosa resta visibile.',
           type: 'image',
           options: { hotspot: true },
           fields: [defineField({ name: 'alt', title: 'Testo alternativo', type: 'string' })],
