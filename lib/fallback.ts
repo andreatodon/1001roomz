@@ -78,6 +78,7 @@ export const fallbackHome: HomePage = {
     title: 'Una stanza alla volta.\nComincia da uno stile.',
     text: 'Ogni stile è un modo di stare in casa. Alcuni vengono dal cinema, altri dal design.',
     ctaLabel: 'Scegli il tuo stile',
+    layout: 'carousel',
   },
   whatYouGet: {
     title: 'Cosa ricevi',

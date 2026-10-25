@@ -74,10 +74,37 @@ export const homePage = defineType({
     defineField({
       name: 'stylesSection',
       title: 'Sezione stili',
-      description: 'Gli stili si gestiscono nella sezione "Stili" del CMS.',
+      description: 'Il contenuto di ogni stile (nome, descrizione, foto) si modifica nella sezione "Stili" del CMS.',
       type: 'object',
       group: 'sections',
-      fields: [txt('title', 'Titolo', 2), txt('text', 'Testo', 2), str('ctaLabel', 'Testo del pulsante')],
+      fields: [
+        txt('title', 'Titolo', 2),
+        txt('text', 'Testo', 2),
+        defineField({
+          name: 'layout',
+          title: 'Visualizzazione',
+          type: 'string',
+          options: {
+            list: [
+              { title: 'Carosello', value: 'carousel' },
+              { title: 'Griglia', value: 'grid' },
+            ],
+            layout: 'radio',
+            direction: 'horizontal',
+          },
+          initialValue: 'carousel',
+        }),
+        defineField({
+          name: 'styles',
+          title: 'Stili nel carosello',
+          description:
+            'Scegli quali stili mostrare e trascinali per cambiarne l’ordine. Se lasci vuoto, compaiono tutti gli stili nell’ordine impostato in "Stili".',
+          type: 'array',
+          of: [defineArrayMember({ type: 'reference', to: [{ type: 'style' }] })],
+          validation: (r) => r.unique(),
+        }),
+        str('ctaLabel', 'Testo del pulsante'),
+      ],
     }),
     defineField({
       name: 'whatYouGet',

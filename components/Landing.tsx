@@ -1,6 +1,7 @@
 import type { HomePage, SiteSettings, Style } from '@/lib/types'
 import { Brackets, StyleShape } from './Shapes'
 import { SanityPicture, hasImage } from './SanityPicture'
+import { StylesCarousel } from './StylesCarousel'
 
 type Props = { home: HomePage; styles: Style[]; settings: SiteSettings }
 
@@ -8,6 +9,38 @@ export function Landing({ home, styles, settings }: Props) {
   const bookingHref = settings.bookingUrl || '#prezzo'
   const external = Boolean(settings.bookingUrl)
   const bookingProps = external ? { target: '_blank', rel: 'noopener noreferrer' } : {}
+
+  // Sezione stili: carosello o griglia, scelto dal CMS (Home page → Sezioni → Sezione stili).
+  const isCarousel = home.stylesSection.layout !== 'grid'
+  const cover = isCarousel ? { width: 560, height: 700 } : { width: 480, height: 360 }
+
+  const styleCards = styles.map((s) => (
+    <li key={s._id} className={`style-card${s.highlighted ? ' is-dark' : ''}`}>
+      <div className="style-visual">
+        {hasImage(s.coverImage) ? (
+          <div className="style-cover">
+            <SanityPicture
+              image={s.coverImage}
+              width={cover.width}
+              height={cover.height}
+              sizes="(max-width: 560px) 80vw, 280px"
+              fallbackAlt={s.title}
+            />
+          </div>
+        ) : (
+          <StyleShape icon={s.icon} />
+        )}
+      </div>
+      <h3>{s.title}</h3>
+      <p>{s.shortDescription}</p>
+    </li>
+  ))
+
+  const stylesCta = (
+    <a href={bookingHref} className="btn-outline" {...bookingProps}>
+      {home.stylesSection.ctaLabel}
+    </a>
+  )
 
   return (
     <>
@@ -127,35 +160,16 @@ export function Landing({ home, styles, settings }: Props) {
             </div>
             <p className="body muted styles-intro">{home.stylesSection.text}</p>
 
-            <ul className="styles-grid" style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-              {styles.map((s) => (
-                <li key={s._id} className={`style-card${s.highlighted ? ' is-dark' : ''}`}>
-                  <div className="style-visual">
-                    {hasImage(s.coverImage) ? (
-                      <div className="style-cover">
-                        <SanityPicture
-                          image={s.coverImage}
-                          width={480}
-                          height={360}
-                          sizes="(max-width: 560px) 90vw, 240px"
-                          fallbackAlt={s.title}
-                        />
-                      </div>
-                    ) : (
-                      <StyleShape icon={s.icon} />
-                    )}
-                  </div>
-                  <h3>{s.title}</h3>
-                  <p>{s.shortDescription}</p>
-                </li>
-              ))}
-            </ul>
-
-            <div className="styles-cta">
-              <a href={bookingHref} className="btn-outline" {...bookingProps}>
-                {home.stylesSection.ctaLabel}
-              </a>
-            </div>
+            {isCarousel ? (
+              <StylesCarousel footer={stylesCta}>{styleCards}</StylesCarousel>
+            ) : (
+              <>
+                <ul className="styles-grid" style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+                  {styleCards}
+                </ul>
+                <div className="styles-cta">{stylesCta}</div>
+              </>
+            )}
           </div>
         </section>
 

@@ -31,7 +31,14 @@ export type HomePage = {
   }
   problem: { eyebrow: string; title: string; paragraphs: string[]; highlight: string }
   howItWorks: { title: string; eyebrow: string; steps: TitledItem[] }
-  stylesSection: { title: string; text: string; ctaLabel: string }
+  stylesSection: {
+    title: string
+    text: string
+    ctaLabel: string
+    layout?: 'carousel' | 'grid'
+    /** Stili scelti e ordinati nel CMS. Vuoto = tutti gli stili, in ordine. */
+    styles?: (Style | null)[]
+  }
   whatYouGet: { title: string; text: string; items: TitledItem[] }
   examples: {
     eyebrow: string

@@ -33,9 +33,13 @@ export async function getContent(): Promise<{ home: HomePage; styles: Style[]; s
       client.fetch<Style[]>(stylesQuery),
       client.fetch<Partial<SiteSettings> | null>(siteSettingsQuery),
     ])
+    const mergedHome = merge(fallbackHome, home)
+    // Stili scelti nel CMS per il carosello (si scartano quelli eliminati o non pubblicati).
+    const curated = (mergedHome.stylesSection.styles ?? []).filter((s): s is Style => Boolean(s && s._id))
+    const allStyles = styles && styles.length > 0 ? styles : fallbackStyles
     return {
-      home: merge(fallbackHome, home),
-      styles: styles && styles.length > 0 ? styles : fallbackStyles,
+      home: mergedHome,
+      styles: curated.length > 0 ? curated : allStyles,
       settings: merge(fallbackSettings, settings),
     }
   } catch (error) {

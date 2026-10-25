@@ -14,7 +14,21 @@ export const homePageQuery = groq`*[_type == "homePage"][0] {
   hero,
   problem,
   howItWorks,
-  stylesSection,
+  stylesSection {
+    title,
+    text,
+    ctaLabel,
+    layout,
+    "styles": styles[]-> {
+      _id,
+      title,
+      "slug": slug.current,
+      shortDescription,
+      icon,
+      highlighted,
+      coverImage
+    }
+  },
   whatYouGet,
   examples {
     eyebrow,

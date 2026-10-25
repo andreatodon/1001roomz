@@ -31,7 +31,10 @@ export function starterDocuments(): StarterDoc[] {
     hero: h.hero,
     problem: h.problem,
     howItWorks: { ...h.howItWorks, steps: h.howItWorks.steps.map((s, i) => ({ _key: key(i), ...s })) },
-    stylesSection: h.stylesSection,
+    stylesSection: {
+      ...h.stylesSection,
+      styles: fallbackStyles.map((s, i) => ({ _key: key(i), _type: 'reference', _ref: s._id })),
+    },
     whatYouGet: { ...h.whatYouGet, items: h.whatYouGet.items.map((s, i) => ({ _key: key(i), ...s })) },
     examples: {
       eyebrow: h.examples.eyebrow,

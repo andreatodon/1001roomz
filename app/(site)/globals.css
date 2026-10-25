@@ -415,6 +415,84 @@ img {
   margin-top: 48px;
 }
 
+/* Carosello stili */
+.carousel-track {
+  list-style: none;
+  margin: 0;
+  padding: 4px 4px 8px;
+  margin-inline: -4px;
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: 4px;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+}
+.carousel-track::-webkit-scrollbar {
+  display: none;
+}
+.carousel-track > li {
+  flex: 0 0 280px;
+  scroll-snap-align: start;
+  min-height: 340px;
+}
+.carousel-track .style-cover {
+  aspect-ratio: 4 / 5;
+}
+/* Titoli allineati alla stessa altezza in tutte le card */
+.carousel-track .style-visual {
+  flex: none;
+  min-height: 200px;
+}
+.carousel-footer {
+  margin-top: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.carousel-controls {
+  display: flex;
+  gap: 8px;
+}
+.carousel-btn {
+  width: 48px;
+  height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid var(--ink);
+  border-radius: 2px;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.carousel-btn:hover:not(:disabled) {
+  background: var(--ink);
+  color: var(--cream);
+}
+.carousel-btn:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+.carousel-btn:focus-visible,
+.carousel-track:focus-visible {
+  outline: 2px solid var(--red);
+  outline-offset: 2px;
+}
+@media (max-width: 560px) {
+  .carousel-track > li {
+    flex-basis: 78%;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .carousel-track {
+    scroll-behavior: auto;
+  }
+}
+
 /* What you get */
 .get-item {
   display: flex;
