@@ -60,7 +60,7 @@ export const homePage = defineType({
       fields: [
         str('eyebrow', 'Occhiello'),
         txt('title', 'Titolo', 2),
-        defineField({ name: 'paragraphs', title: 'Paragrafi', type: 'array', of: [{ type: 'text', rows: 2 }] }),
+        defineField({ name: 'paragraphs', title: 'Paragrafi', type: 'array', of: [defineArrayMember({ type: 'text' })] }),
         txt('highlight', 'Frase in evidenza', 2),
       ],
     }),

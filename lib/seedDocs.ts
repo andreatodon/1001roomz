@@ -2,12 +2,15 @@ import { fallbackHome, fallbackSettings, fallbackStyles } from './fallback'
 
 const key = (i: number) => `k${i}`
 
+/** Forma comune a tutti i documenti di partenza, accettata dal client Sanity. */
+export type StarterDoc = { _id: string; _type: string; [field: string]: unknown }
+
 /**
  * I documenti di partenza del CMS: Home page, Impostazioni e i 5 stili,
  * con i testi attuali della landing. Usati dal pulsante "Carica contenuti
  * di partenza" nello Studio e dallo script `npm run seed`.
  */
-export function starterDocuments() {
+export function starterDocuments(): StarterDoc[] {
   const h = fallbackHome
   const minimal = fallbackStyles.find((s) => s.slug === 'minimalismo-razionalista')!
 

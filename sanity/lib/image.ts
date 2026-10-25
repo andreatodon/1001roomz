@@ -1,9 +1,12 @@
 import imageUrlBuilder from '@sanity/image-url'
-import type { SanityImageSource } from '@sanity/image-url/lib/types/types'
+import type { SanityImage } from '@/lib/types'
 import { dataset, projectId } from '../env'
 
 const builder = imageUrlBuilder({ projectId: projectId || 'not-configured', dataset })
 
-export function urlFor(source: SanityImageSource) {
-  return builder.image(source)
+type ImageSource = Parameters<typeof builder.image>[0]
+
+/** Accetta anche le immagini del CMS con campi facoltativi (controllate prima con hasImage). */
+export function urlFor(source: SanityImage | ImageSource) {
+  return builder.image(source as ImageSource)
 }
