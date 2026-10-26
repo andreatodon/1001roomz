@@ -1,5 +1,7 @@
 import type { StylePageData } from '@/lib/content'
 import { bookingLink } from '@/lib/booking'
+import { otherLang, paths } from '@/lib/i18n'
+import { uiFor } from '@/lib/ui'
 import { SanityPicture, hasImage } from './SanityPicture'
 import { StyleShape } from './Shapes'
 import { SiteFooter, SiteHeader } from './SiteChrome'
@@ -23,9 +25,11 @@ function galleryClass(n: number) {
 }
 
 /** Pagina di un singolo stile, su /stili/[slug]. Le sezioni vuote nel CMS non compaiono. */
-export function StyleDetailPage({ style, styles, labels, settings }: StylePageData) {
-  const book = bookingLink(settings, { style: style.title, fallback: '/#prezzo' })
-  const unsure = bookingLink(settings, { fallback: '/#prezzo' })
+export function StyleDetailPage({ lang, style, styles, labels, settings }: StylePageData) {
+  const ui = uiFor(lang)
+  const homeSection = (anchor: string) => paths.section(lang, anchor)
+  const book = bookingLink(settings, { style: style.title, fallback: homeSection('prezzo') })
+  const unsure = bookingLink(settings, { fallback: homeSection('prezzo') })
 
   const index = styles.findIndex((s) => s.slug === style.slug)
   const counter =
@@ -45,17 +49,17 @@ export function StyleDetailPage({ style, styles, labels, settings }: StylePageDa
 
   return (
     <>
-      <SiteHeader settings={settings} />
+      <SiteHeader lang={lang} settings={settings} alternateHref={paths.style(otherLang(lang), style.slug)} />
 
       <main id="top">
         {/* INTESTAZIONE */}
         <section className="sp-head">
           <div className="container">
-            <p className="sp-crumbs small muted">
-              <a href="/#stili">{labels.breadcrumb}</a>
+            <nav className="sp-crumbs small muted" aria-label={ui.breadcrumbLabel}>
+              <a href={homeSection('stili')}>{labels.breadcrumb}</a>
               <span aria-hidden="true"> / </span>
               <span aria-current="page">{style.title}</span>
-            </p>
+            </nav>
             <div className="split sp-head-grid">
               <div className="sp-title">
                 <div className="bracket bracket-tl sp-corner" aria-hidden="true" />
@@ -91,7 +95,7 @@ export function StyleDetailPage({ style, styles, labels, settings }: StylePageDa
                       height={i === 0 ? 1200 : 600}
                       sizes={i === 0 ? '(max-width: 900px) 100vw, 760px' : '(max-width: 900px) 50vw, 380px'}
                       priority={i === 0}
-                      fallbackAlt={`${style.title}, foto ${i + 1}`}
+                      fallbackAlt={`${style.title}, ${ui.photo} ${i + 1}`}
                     />
                   </li>
                 ))}
@@ -128,7 +132,7 @@ export function StyleDetailPage({ style, styles, labels, settings }: StylePageDa
                     <li key={t._key || i} className="sp-trait">
                       <h3>{t.title}</h3>
                       {t.colors && t.colors.length > 0 && (
-                        <ul className="sp-swatches" aria-label={`${t.title}: campioni`}>
+                        <ul className="sp-swatches" aria-label={`${t.title}: ${ui.swatches}`}>
                           {t.colors.map((c, j) => (
                             <li key={c._key || j} title={c.name} style={{ background: c.hex }}>
                               <span className="sr-only">{c.name || c.hex}</span>
@@ -173,7 +177,7 @@ export function StyleDetailPage({ style, styles, labels, settings }: StylePageDa
                     {style.alternativeStyle?.slug && (
                       <p className="small sp-alt">
                         {labels.alternativeBefore}{' '}
-                        <a href={`/stili/${style.alternativeStyle.slug}`} className="link-underline">
+                        <a href={paths.style(lang, style.alternativeStyle.slug)} className="link-underline">
                           {style.alternativeStyle.title}
                         </a>
                         {labels.alternativeAfter}
@@ -245,14 +249,14 @@ export function StyleDetailPage({ style, styles, labels, settings }: StylePageDa
             <div className="container">
               <div className="section-head">
                 <h2 className="h-section">{labels.otherStylesTitle}</h2>
-                <a href="/#stili" className="link-underline">
+                <a href={homeSection('stili')} className="link-underline">
                   {labels.allStylesLabel}
                 </a>
               </div>
               <ul className="sp-others">
                 {others.map((s) => (
                   <li key={s._id}>
-                    <a href={`/stili/${s.slug}`} className={`style-card${s.highlighted ? ' is-dark' : ''}`}>
+                    <a href={paths.style(lang, s.slug)} className={`style-card${s.highlighted ? ' is-dark' : ''}`}>
                       <div className="style-visual">
                         {hasImage(s.coverImage) ? (
                           <div className="style-cover">

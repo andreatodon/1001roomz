@@ -1,13 +1,16 @@
 import type { HomePage, SiteSettings, Style } from '@/lib/types'
 import { bookingLink } from '@/lib/booking'
+import { paths, type Lang } from '@/lib/i18n'
+import { uiFor } from '@/lib/ui'
 import { Brackets, StyleShape } from './Shapes'
 import { SanityPicture, hasImage } from './SanityPicture'
 import { StylesFilter } from './StylesFilter'
 import { SiteFooter, SiteHeader } from './SiteChrome'
 
-type Props = { home: HomePage; styles: Style[]; settings: SiteSettings }
+type Props = { lang: Lang; home: HomePage; styles: Style[]; settings: SiteSettings }
 
-export function Landing({ home, styles, settings }: Props) {
+export function Landing({ lang, home, styles, settings }: Props) {
+  const ui = uiFor(lang)
   const { href: bookingHref, props: bookingProps } = bookingLink(settings)
   const heroImage = hasImage(home.hero.image) ? home.hero.image : null
 
@@ -20,7 +23,7 @@ export function Landing({ home, styles, settings }: Props) {
     rooms: s.rooms ?? [],
     card: (
       <li key={s._id}>
-        <a href={`/stili/${s.slug}`} className={`style-card${s.highlighted ? ' is-dark' : ''}`}>
+        <a href={paths.style(lang, s.slug)} className={`style-card${s.highlighted ? ' is-dark' : ''}`}>
           <div className="style-visual">
             {hasImage(s.coverImage) ? (
               <div className="style-cover">
@@ -51,7 +54,7 @@ export function Landing({ home, styles, settings }: Props) {
 
   return (
     <>
-      <SiteHeader settings={settings} onHome />
+      <SiteHeader lang={lang} settings={settings} alternateHref={paths.home(lang === 'it' ? 'en' : 'it')} onHome />
 
       <main id="top">
         {/* HERO: la foto fa da sfondo al testo */}
@@ -64,7 +67,7 @@ export function Landing({ home, styles, settings }: Props) {
                 height={1500}
                 sizes="100vw"
                 priority
-                fallbackAlt="Una stanza arredata con luce naturale"
+                fallbackAlt={ui.heroAlt}
               />
             </div>
           )}
@@ -83,11 +86,7 @@ export function Landing({ home, styles, settings }: Props) {
                   {home.hero.secondaryLabel}
                 </a>
               </div>
-              {!heroImage && (
-                <p className="hero-placeholder">
-                  [Foto hero: caricala dal CMS in Home page → Hero → Foto della stanza]
-                </p>
-              )}
+              {!heroImage && <p className="hero-placeholder">{ui.heroPlaceholder}</p>}
             </div>
           </div>
         </section>
@@ -143,6 +142,7 @@ export function Landing({ home, styles, settings }: Props) {
               text={home.stylesSection.text}
               items={styleCards}
               labels={home.stylesSection.filter}
+              ui={ui}
               layout={isCarousel ? 'carousel' : 'grid'}
               cta={stylesCta}
             />
@@ -211,7 +211,7 @@ export function Landing({ home, styles, settings }: Props) {
         <div className="divider" id="guide" />
         <section className="section">
           <div className="container faq">
-            <h2>Domande frequenti</h2>
+            <h2>{home.faqTitle}</h2>
             {home.faqs.map((f, i) => (
               <div key={f._key || i} className="faq-item">
                 <h3>{f.question}</h3>

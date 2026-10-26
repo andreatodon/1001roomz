@@ -3,7 +3,9 @@
 import { visionTool } from '@sanity/vision'
 import { defineConfig } from 'sanity'
 import { structureTool } from 'sanity/structure'
+import { convertToBilingualAction } from './sanity/actions/convertToBilingual'
 import { loadStarterContent } from './sanity/actions/loadStarterContent'
+import { isPreviewStudio } from './sanity/lib/studioEnv'
 import { apiVersion, dataset, projectId } from './sanity/env'
 import { schemaTypes, singletonTypes } from './sanity/schemaTypes'
 import { structure } from './sanity/structure'
@@ -22,9 +24,11 @@ export default defineConfig({
   },
   document: {
     actions: (actions, { schemaType }) => {
+      // Nelle anteprime dei branch lo Studio non pubblica niente: il dataset è quello del sito vero.
+      if (isPreviewStudio()) return actions.filter(({ action }) => action === 'discardChanges')
       if (!singletonTypes.has(schemaType)) return actions
       const kept = actions.filter(({ action }) => action && ['publish', 'discardChanges', 'restore'].includes(action))
-      return schemaType === 'homePage' ? [loadStarterContent, ...kept] : kept
+      return schemaType === 'homePage' ? [convertToBilingualAction, loadStarterContent, ...kept] : kept
     },
   },
 })

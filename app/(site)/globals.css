@@ -223,6 +223,22 @@ img {
   min-height: 44px;
 }
 
+/* Selettore della lingua, nel menu */
+.lang-switch {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.lang-switch:hover {
+  color: var(--red);
+}
+
 /* Hero: foto a tutta larghezza dietro il testo */
 .hero {
   position: relative;
@@ -1059,8 +1075,11 @@ a.style-card:focus-visible {
   .styles-grid {
     grid-template-columns: repeat(2, 1fr);
   }
-  .nav-links a:not(.btn) {
+  .nav-links a:not(.btn):not(.lang-switch) {
     display: none;
+  }
+  .nav-links {
+    gap: 16px;
   }
   .sp-title h1 {
     font-size: 44px;

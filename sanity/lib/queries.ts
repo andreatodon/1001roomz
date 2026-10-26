@@ -40,13 +40,21 @@ export const homePageQuery = groq`*[_type == "homePage"][0] {
     items[] { _key, text, "styleTitle": style->title }
   },
   pricing,
+  faqTitle,
   faqs,
   closing
 }`
 
 export const siteSettingsQuery = groq`*[_type == "siteSettings"][0] {
   bookingUrl,
-  footerText
+  bookingUrlEn,
+  footerText,
+  navStyles,
+  navHowItWorks,
+  navGuides,
+  navBook,
+  metaTitle,
+  metaDescription
 }`
 
 export const styleSlugsQuery = groq`*[_type == "style" && defined(slug.current)].slug.current`

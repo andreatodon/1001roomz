@@ -1,11 +1,6 @@
 import { defineArrayMember, defineField, defineType } from 'sanity'
 import { ROOMS } from '../../lib/rooms'
-
-const str = (name: string, title: string, description?: string) =>
-  defineField({ name, title, type: 'string', description })
-
-const txt = (name: string, title: string, rows = 3, description?: string) =>
-  defineField({ name, title, type: 'text', rows, description })
+import { ls, lt } from './locale'
 
 const titledItems = (name: string, title: string) =>
   defineField({
@@ -16,8 +11,8 @@ const titledItems = (name: string, title: string) =>
       defineArrayMember({
         type: 'object',
         name: 'item',
-        fields: [str('title', 'Titolo'), txt('text', 'Testo', 2)],
-        preview: { select: { title: 'title', subtitle: 'text' } },
+        fields: [ls('title', 'Titolo'), lt('text', 'Testo')],
+        preview: { select: { title: 'title.it', subtitle: 'text.it' } },
       }),
     ],
   })
@@ -38,11 +33,11 @@ export const homePage = defineType({
       type: 'object',
       group: 'hero',
       fields: [
-        str('eyebrow', 'Occhiello'),
-        txt('title', 'Titolo', 3, 'Vai a capo con Invio: le righe vengono mantenute.'),
-        txt('text', 'Testo'),
-        str('ctaLabel', 'Testo del pulsante'),
-        str('secondaryLabel', 'Link secondario'),
+        ls('eyebrow', 'Occhiello'),
+        lt('title', 'Titolo', 'Vai a capo con Invio: le righe vengono mantenute.'),
+        lt('text', 'Testo'),
+        ls('ctaLabel', 'Testo del pulsante'),
+        ls('secondaryLabel', 'Link secondario'),
         defineField({
           name: 'image',
           title: 'Foto della stanza',
@@ -50,7 +45,7 @@ export const homePage = defineType({
             'Sfondo dell’hero, a tutta larghezza sotto il testo. Formato orizzontale, almeno 2400 px di base, stanza reale con luce naturale. Usa il punto focale per scegliere cosa resta visibile.',
           type: 'image',
           options: { hotspot: true },
-          fields: [defineField({ name: 'alt', title: 'Testo alternativo', type: 'string' })],
+          fields: [ls('alt', 'Testo alternativo')],
         }),
       ],
     }),
@@ -60,15 +55,15 @@ export const homePage = defineType({
       type: 'object',
       group: 'sections',
       fields: [
-        str('eyebrow', 'Occhiello'),
-        txt('title', 'Titolo', 2),
+        ls('eyebrow', 'Occhiello'),
+        lt('title', 'Titolo'),
         defineField({
           name: 'paragraphs',
           title: 'Paragrafi',
           type: 'array',
-          of: [defineArrayMember({ type: 'text' })],
+          of: [defineArrayMember({ type: 'localeText' })],
         }),
-        txt('highlight', 'Frase in evidenza', 2),
+        lt('highlight', 'Frase in evidenza'),
       ],
     }),
     defineField({
@@ -76,7 +71,7 @@ export const homePage = defineType({
       title: 'Come funziona',
       type: 'object',
       group: 'sections',
-      fields: [str('title', 'Titolo'), str('eyebrow', 'Occhiello'), titledItems('steps', 'Passi')],
+      fields: [ls('title', 'Titolo'), ls('eyebrow', 'Occhiello'), titledItems('steps', 'Passi')],
     }),
     defineField({
       name: 'stylesSection',
@@ -85,8 +80,8 @@ export const homePage = defineType({
       type: 'object',
       group: 'sections',
       fields: [
-        txt('title', 'Titolo', 2),
-        txt('text', 'Testo', 2),
+        lt('title', 'Titolo'),
+        lt('text', 'Testo'),
         defineField({
           name: 'layout',
           title: 'Visualizzazione',
@@ -110,7 +105,7 @@ export const homePage = defineType({
           of: [defineArrayMember({ type: 'reference', to: [{ type: 'style' }] })],
           validation: (r) => r.unique(),
         }),
-        str('ctaLabel', 'Testo del pulsante'),
+        ls('ctaLabel', 'Testo del pulsante'),
         defineField({
           name: 'filter',
           title: 'Filtro per stanza',
@@ -119,15 +114,15 @@ export const homePage = defineType({
           type: 'object',
           options: { collapsible: true, collapsed: true },
           fields: [
-            str('allLabel', 'Tab "tutti"', 'Il primo tab, che mostra tutti gli stili.'),
-            ...ROOMS.map((r) => str(r.field, `Tab "${r.title}"`)),
-            str(
+            ls('allLabel', 'Tab "tutti"', 'Il primo tab, che mostra tutti gli stili.'),
+            ...ROOMS.map((r) => ls(r.field, `Tab "${r.title}"`)),
+            ls(
               'ariaLabel',
               'Descrizione per lettori di schermo',
               'Non si vede. Esempio: "Filtra gli stili per stanza".',
             ),
-            str('countOne', 'Conteggio, singolare', 'Accanto al numero, per esempio "stile".'),
-            str('countMany', 'Conteggio, plurale', 'Accanto al numero, per esempio "stili".'),
+            ls('countOne', 'Conteggio, singolare', 'Accanto al numero, per esempio "stile".'),
+            ls('countMany', 'Conteggio, plurale', 'Accanto al numero, per esempio "stili".'),
           ],
         }),
       ],
@@ -137,7 +132,7 @@ export const homePage = defineType({
       title: 'Cosa ricevi',
       type: 'object',
       group: 'sections',
-      fields: [str('title', 'Titolo'), txt('text', 'Testo', 2), titledItems('items', 'Voci')],
+      fields: [ls('title', 'Titolo'), lt('text', 'Testo'), titledItems('items', 'Voci')],
     }),
     defineField({
       name: 'examples',
@@ -145,8 +140,8 @@ export const homePage = defineType({
       type: 'object',
       group: 'sections',
       fields: [
-        str('eyebrow', 'Occhiello'),
-        str('title', 'Titolo'),
+        ls('eyebrow', 'Occhiello'),
+        ls('title', 'Titolo'),
         defineField({
           name: 'items',
           title: 'Esempi',
@@ -157,13 +152,13 @@ export const homePage = defineType({
               name: 'example',
               fields: [
                 defineField({ name: 'style', title: 'Stile', type: 'reference', to: [{ type: 'style' }] }),
-                txt('text', 'Racconto', 2),
+                lt('text', 'Racconto'),
               ],
-              preview: { select: { title: 'style.title', subtitle: 'text' } },
+              preview: { select: { title: 'style.title.it', subtitle: 'text.it' } },
             }),
           ],
         }),
-        txt('note', 'Nota finale', 2),
+        lt('note', 'Nota finale'),
       ],
     }),
     defineField({
@@ -172,13 +167,19 @@ export const homePage = defineType({
       type: 'object',
       group: 'sales',
       fields: [
-        str('eyebrow', 'Occhiello'),
-        str('title', 'Titolo', 'Per esempio: "Il piano per una stanza"'),
-        str('price', 'Prezzo', 'Per esempio: "€ 149"'),
-        txt('text', 'Testo', 2),
-        str('ctaLabel', 'Testo del pulsante'),
+        ls('eyebrow', 'Occhiello'),
+        ls('title', 'Titolo', 'Per esempio: "Il piano per una stanza"'),
+        defineField({
+          name: 'price',
+          title: 'Prezzo',
+          description: 'Uguale nelle due lingue. Per esempio: "€ 149"',
+          type: 'string',
+        }),
+        lt('text', 'Testo'),
+        ls('ctaLabel', 'Testo del pulsante'),
       ],
     }),
+    { ...ls('faqTitle', 'Titolo delle domande frequenti'), group: 'sales' },
     defineField({
       name: 'faqs',
       title: 'Domande frequenti',
@@ -188,8 +189,8 @@ export const homePage = defineType({
         defineArrayMember({
           type: 'object',
           name: 'faq',
-          fields: [str('question', 'Domanda'), txt('answer', 'Risposta', 3)],
-          preview: { select: { title: 'question', subtitle: 'answer' } },
+          fields: [ls('question', 'Domanda'), lt('answer', 'Risposta')],
+          preview: { select: { title: 'question.it', subtitle: 'answer.it' } },
         }),
       ],
     }),
@@ -198,7 +199,7 @@ export const homePage = defineType({
       title: 'Chiusura',
       type: 'object',
       group: 'sales',
-      fields: [txt('title', 'Titolo', 2), str('ctaLabel', 'Testo del pulsante')],
+      fields: [lt('title', 'Titolo'), ls('ctaLabel', 'Testo del pulsante')],
     }),
   ],
   preview: { prepare: () => ({ title: 'Home page' }) },

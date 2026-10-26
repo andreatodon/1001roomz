@@ -1,7 +1,5 @@
-import { defineField, defineType } from 'sanity'
-
-const str = (name: string, title: string, description?: string) =>
-  defineField({ name, title, type: 'string', description })
+import { defineType } from 'sanity'
+import { ls as str, lt } from './locale'
 
 /** Testi uguali per tutte le pagine stile: titoli delle sezioni e pulsanti. */
 export const stylePage = defineType({
@@ -13,7 +11,7 @@ export const stylePage = defineType({
     str(
       'counter',
       'Occhiello',
-      'Usa {n} per il numero dello stile e {totale} per quanti sono. Esempio: "Stile {n} di {totale}".',
+      'Usa {n} per il numero dello stile e {totale} per quanti sono, in tutte e due le lingue. Esempio: "Stile {n} di {totale}" e "Style {n} of {totale}".',
     ),
     str('bookLabel', 'Pulsante principale', 'Porta alla prenotazione, con lo stile già indicato.'),
     str('unsureLabel', 'Link "non lo so"', 'Per chi vuole prenotare senza aver scelto uno stile.'),
@@ -31,7 +29,7 @@ export const stylePage = defineType({
     str('planEyebrow', 'Occhiello del piano di esempio'),
     str('planTotalLabel', 'Etichetta del budget totale'),
     str('ctaTitle', 'Fascia finale: titolo'),
-    defineField({ name: 'ctaText', title: 'Fascia finale: testo', type: 'text', rows: 2 }),
+    lt('ctaText', 'Fascia finale: testo'),
     str('otherStylesTitle', 'Titolo "Altri stili"'),
     str('allStylesLabel', 'Link a tutti gli stili'),
     str('galleryPlaceholder', 'Avviso foto mancanti', 'Si vede solo finché uno stile non ha foto.'),

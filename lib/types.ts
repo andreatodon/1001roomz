@@ -106,8 +106,19 @@ export type HomePage = {
     items: { _key?: string; styleTitle?: string; text: string }[]
   }
   pricing: { eyebrow: string; title: string; price: string; text: string; ctaLabel: string }
+  faqTitle: string
   faqs: { _key?: string; question: string; answer: string }[]
   closing: { title: string; ctaLabel: string }
 }
 
-export type SiteSettings = { bookingUrl?: string; footerText: string }
+export type SiteSettings = {
+  /** Il link di prenotazione già scelto per la lingua della pagina. */
+  bookingUrl?: string
+  footerText: string
+  navStyles: string
+  navHowItWorks: string
+  navGuides: string
+  navBook: string
+  metaTitle: string
+  metaDescription: string
+}

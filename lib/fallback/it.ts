@@ -1,12 +1,14 @@
-import type { HomePage, SiteSettings, Style, StyleDetail, StylePageLabels } from './types'
+import type { HomePage, SiteSettings, Style, StyleDetail, StylePageLabels } from '../types'
+import type { StarterContent } from './index'
 
 /**
- * Testi di partenza della landing.
- * Servono in due casi: finché Sanity non è collegato, e come contenuto
- * iniziale caricato nel CMS con `npm run seed`.
+ * Testi di partenza in italiano.
+ * Il sito li mostra quando un campo nel CMS è vuoto, e sono il contenuto
+ * iniziale caricato nel CMS (pulsante nello Studio o `npm run seed`).
+ * La versione inglese, con la stessa struttura, è in en.ts.
  */
 
-export const fallbackStyles: Style[] = [
+const fallbackStyles: Style[] = [
   {
     _id: 'style-2001-space-odyssey',
     title: '2001: A Space Odyssey',
@@ -45,7 +47,7 @@ export const fallbackStyles: Style[] = [
   },
 ]
 
-export const fallbackHome: HomePage = {
+const fallbackHome: HomePage = {
   hero: {
     eyebrow: 'Una stanza alla volta',
     title: 'Hai già le chiavi.\nOra ti serve una stanza che sembri tua.',
@@ -129,6 +131,7 @@ export const fallbackHome: HomePage = {
     text: 'Consulenza e piano inclusi. Nessun acquisto obbligatorio, nessun abbonamento.',
     ctaLabel: 'Prenota la consulenza',
   },
+  faqTitle: 'Domande frequenti',
   faqs: [
     {
       question: 'Devo comprare tutto io?',
@@ -158,12 +161,19 @@ export const fallbackHome: HomePage = {
   },
 }
 
-export const fallbackSettings: SiteSettings = {
+const fallbackSettings: SiteSettings = {
   footerText: '© 2026 1001 Rooms',
+  navStyles: 'Stili',
+  navHowItWorks: 'Come funziona',
+  navGuides: 'Guide',
+  navBook: 'Prenota',
+  metaTitle: '1001 Rooms · Una stanza alla volta',
+  metaDescription:
+    'Scegli uno stile, prenota una consulenza. Ricevi un piano chiaro: cosa comprare, dove metterlo, come farla tua.',
 }
 
 /** Testi comuni delle pagine stile. */
-export const fallbackStylePage: StylePageLabels = {
+const fallbackStylePage: StylePageLabels = {
   breadcrumb: 'Stili',
   counter: 'Stile {n} di {totale}',
   bookLabel: 'Prenota con questo stile',
@@ -189,7 +199,7 @@ export const fallbackStylePage: StylePageLabels = {
  * Bozza da rivedere: c'è solo il Minimalismo razionalista, come esempio.
  * Gli altri stili mostrano solo le sezioni compilate nel CMS.
  */
-export const fallbackStyleDetails: Record<string, Partial<StyleDetail>> = {
+const fallbackStyleDetails: Record<string, Partial<StyleDetail>> = {
   'minimalismo-razionalista': {
     intro:
       'Poco, ma tutto al suo posto. Pochi oggetti scelti bene, linee dritte, colori che non urlano. La stanza respira e tu con lei.',
@@ -234,4 +244,12 @@ export const fallbackStyleDetails: Record<string, Partial<StyleDetail>> = {
       total: '[€ ...]',
     },
   },
+}
+
+export const it: StarterContent = {
+  styles: fallbackStyles,
+  home: fallbackHome,
+  settings: fallbackSettings,
+  stylePage: fallbackStylePage,
+  styleDetails: fallbackStyleDetails,
 }

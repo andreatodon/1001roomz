@@ -1,5 +1,6 @@
 import { defineArrayMember, defineField, defineType } from 'sanity'
 import { ROOMS } from '../../lib/rooms'
+import { requiredLocale } from './locale'
 
 export const style = defineType({
   name: 'style',
@@ -13,27 +14,27 @@ export const style = defineType({
     defineField({
       name: 'title',
       title: 'Nome',
-      type: 'string',
+      type: 'localeString',
       group: ['card', 'page'],
-      validation: (r) => r.required(),
+      validation: requiredLocale(),
     }),
     defineField({
       name: 'slug',
       title: 'Indirizzo (slug)',
-      description: 'La pagina dello stile sarà su /stili/questo-indirizzo.',
+      description:
+        'Uguale nelle due lingue. La pagina dello stile sarà su /stili/questo-indirizzo e, in inglese, su /en/styles/questo-indirizzo.',
       type: 'slug',
       group: ['card', 'page'],
-      options: { source: 'title', maxLength: 64 },
+      options: { source: 'title.it', maxLength: 64 },
       validation: (r) => r.required(),
     }),
     defineField({
       name: 'shortDescription',
       title: 'Descrizione breve',
       description: 'Una o due frasi, mostrate nella card dello stile.',
-      type: 'text',
-      rows: 2,
+      type: 'localeText',
       group: 'card',
-      validation: (r) => r.required().max(160),
+      validation: requiredLocale(160),
     }),
     defineField({
       name: 'rooms',
@@ -78,7 +79,7 @@ export const style = defineType({
       type: 'image',
       group: 'card',
       options: { hotspot: true },
-      fields: [defineField({ name: 'alt', title: 'Testo alternativo', type: 'string' })],
+      fields: [defineField({ name: 'alt', title: 'Testo alternativo', type: 'localeString' })],
     }),
     defineField({
       name: 'order',
@@ -94,8 +95,7 @@ export const style = defineType({
       name: 'intro',
       title: 'Introduzione',
       description: 'Due o tre frasi sotto il nome, in alto nella pagina. Se è vuota si usa la descrizione breve.',
-      type: 'text',
-      rows: 3,
+      type: 'localeText',
       group: 'page',
     }),
     defineField({
@@ -110,7 +110,7 @@ export const style = defineType({
         defineArrayMember({
           type: 'image',
           options: { hotspot: true },
-          fields: [defineField({ name: 'alt', title: 'Testo alternativo', type: 'string' })],
+          fields: [defineField({ name: 'alt', title: 'Testo alternativo', type: 'localeString' })],
         }),
       ],
     }),
@@ -126,8 +126,8 @@ export const style = defineType({
           type: 'object',
           name: 'trait',
           fields: [
-            defineField({ name: 'title', title: 'Titolo', type: 'string' }),
-            defineField({ name: 'text', title: 'Testo', type: 'text', rows: 2 }),
+            defineField({ name: 'title', title: 'Titolo', type: 'localeString' }),
+            defineField({ name: 'text', title: 'Testo', type: 'localeText' }),
             defineField({
               name: 'colors',
               title: 'Campioni di colore',
@@ -138,7 +138,7 @@ export const style = defineType({
                   type: 'object',
                   name: 'swatch',
                   fields: [
-                    defineField({ name: 'name', title: 'Nome', type: 'string' }),
+                    defineField({ name: 'name', title: 'Nome', type: 'localeString' }),
                     defineField({
                       name: 'hex',
                       title: 'Codice colore',
@@ -147,12 +147,12 @@ export const style = defineType({
                       validation: (r) => r.regex(/^#[0-9a-fA-F]{6}$/, { name: 'colore' }),
                     }),
                   ],
-                  preview: { select: { title: 'name', subtitle: 'hex' } },
+                  preview: { select: { title: 'name.it', subtitle: 'hex' } },
                 }),
               ],
             }),
           ],
-          preview: { select: { title: 'title', subtitle: 'text' } },
+          preview: { select: { title: 'title.it', subtitle: 'text.it' } },
         }),
       ],
     }),
@@ -162,7 +162,7 @@ export const style = defineType({
       description: 'Una frase per riga.',
       type: 'array',
       group: 'page',
-      of: [defineArrayMember({ type: 'string' })],
+      of: [defineArrayMember({ type: 'localeString' })],
     }),
     defineField({
       name: 'notFor',
@@ -170,7 +170,7 @@ export const style = defineType({
       description: 'Una frase per riga.',
       type: 'array',
       group: 'page',
-      of: [defineArrayMember({ type: 'string' })],
+      of: [defineArrayMember({ type: 'localeString' })],
     }),
     defineField({
       name: 'alternativeStyle',
@@ -187,8 +187,8 @@ export const style = defineType({
       type: 'object',
       group: 'page',
       fields: [
-        defineField({ name: 'title', title: 'Titolo', type: 'string' }),
-        defineField({ name: 'text', title: 'Testo', type: 'text', rows: 2 }),
+        defineField({ name: 'title', title: 'Titolo', type: 'localeString' }),
+        defineField({ name: 'text', title: 'Testo', type: 'localeText' }),
         defineField({
           name: 'items',
           title: 'Oggetti, in ordine di acquisto',
@@ -198,31 +198,39 @@ export const style = defineType({
               type: 'object',
               name: 'planItem',
               fields: [
-                defineField({ name: 'title', title: 'Oggetto', type: 'string' }),
-                defineField({ name: 'note', title: 'Nota', type: 'string' }),
+                defineField({ name: 'title', title: 'Oggetto', type: 'localeString' }),
+                defineField({ name: 'note', title: 'Nota', type: 'localeString' }),
                 defineField({
                   name: 'price',
                   title: 'Prezzo',
-                  description: 'Testo libero, per esempio "€ 120".',
+                  description: 'Uguale nelle due lingue. Testo libero, per esempio "€ 120".',
                   type: 'string',
                 }),
               ],
-              preview: { select: { title: 'title', subtitle: 'price' } },
+              preview: { select: { title: 'title.it', subtitle: 'price' } },
             }),
           ],
         }),
-        defineField({ name: 'total', title: 'Budget totale', type: 'string' }),
+        defineField({ name: 'total', title: 'Budget totale', description: 'Uguale nelle due lingue.', type: 'string' }),
       ],
     }),
   ],
   orderings: [{ title: 'Ordine', name: 'orderAsc', by: [{ field: 'order', direction: 'asc' }] }],
   preview: {
-    select: { title: 'title', subtitle: 'shortDescription', media: 'coverImage', rooms: 'rooms' },
-    prepare: ({ title, subtitle, media, rooms }) => {
+    select: {
+      title: 'title.it',
+      legacyTitle: 'title',
+      subtitle: 'shortDescription.it',
+      media: 'coverImage',
+      rooms: 'rooms',
+    },
+    prepare: ({ title, legacyTitle, subtitle, media, rooms }) => {
       const names = ((rooms as string[] | undefined) ?? [])
         .map((v) => ROOMS.find((r) => r.value === v)?.title)
         .filter(Boolean)
-      return { title, subtitle: names.length ? names.join(', ') : subtitle, media }
+      // Prima della conversione in bilingue il nome è ancora un testo semplice.
+      const name = title || (typeof legacyTitle === 'string' ? legacyTitle : 'Stile senza nome')
+      return { title: name, subtitle: names.length ? names.join(', ') : subtitle, media }
     },
   },
 })

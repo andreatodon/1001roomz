@@ -1,6 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react'
+import type { UiStrings } from '@/lib/ui'
 
 /**
  * Carosello orizzontale degli stili: scorre con il dito, con il trackpad
@@ -10,11 +11,14 @@ export function StylesCarousel({
   children,
   footer,
   resetKey,
+  ui,
 }: {
   children: ReactNode
   footer?: ReactNode
   /** Quando cambia (per esempio con il filtro per stanza) il carosello torna all'inizio. */
   resetKey?: string
+  /** Descrizioni per i lettori di schermo, nella lingua della pagina. */
+  ui: Pick<UiStrings, 'stylesList' | 'prevStyles' | 'nextStyles'>
 }) {
   const trackRef = useRef<HTMLUListElement>(null)
   const [atStart, setAtStart] = useState(true)
@@ -58,7 +62,7 @@ export function StylesCarousel({
 
   return (
     <div className="carousel">
-      <ul ref={trackRef} className="carousel-track" aria-label="Stili">
+      <ul ref={trackRef} className="carousel-track" aria-label={ui.stylesList}>
         {children}
       </ul>
       <div className="carousel-footer">
@@ -69,7 +73,7 @@ export function StylesCarousel({
             className="carousel-btn"
             onClick={() => scrollByPage(-1)}
             disabled={atStart}
-            aria-label="Stili precedenti"
+            aria-label={ui.prevStyles}
           >
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
               <path d="M12.5 4 6.5 10l6 6" stroke="currentColor" strokeWidth="2" />
@@ -80,7 +84,7 @@ export function StylesCarousel({
             className="carousel-btn"
             onClick={() => scrollByPage(1)}
             disabled={atEnd}
-            aria-label="Stili successivi"
+            aria-label={ui.nextStyles}
           >
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
               <path d="m7.5 4 6 6-6 6" stroke="currentColor" strokeWidth="2" />

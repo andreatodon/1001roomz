@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState, type ReactNode } from 'react'
 import { ROOMS, isRoomKey, type RoomKey } from '@/lib/rooms'
 import type { StylesFilterLabels } from '@/lib/types'
+import type { UiStrings } from '@/lib/ui'
 import { StylesCarousel } from './StylesCarousel'
 
 type Item = { id: string; rooms: RoomKey[]; card: ReactNode }
@@ -12,6 +13,7 @@ type Props = {
   text: string
   items: Item[]
   labels: StylesFilterLabels
+  ui: UiStrings
   layout: 'carousel' | 'grid'
   cta: ReactNode
 }
@@ -23,7 +25,7 @@ const PARAM = 'stanza'
  * dal server; qui si sceglie solo quali mostrare. La stanza scelta resta
  * nell'indirizzo (?stanza=bagno), così il link si può condividere.
  */
-export function StylesFilter({ title, text, items, labels, layout, cta }: Props) {
+export function StylesFilter({ title, text, items, labels, ui, layout, cta }: Props) {
   const [room, setRoom] = useState<RoomKey | null>(null)
 
   // Solo le stanze con almeno uno stile, nell'ordine fisso.
@@ -77,7 +79,7 @@ export function StylesFilter({ title, text, items, labels, layout, cta }: Props)
       )}
 
       {layout === 'carousel' ? (
-        <StylesCarousel footer={cta} resetKey={room ?? 'tutti'}>
+        <StylesCarousel footer={cta} resetKey={room ?? 'tutti'} ui={ui}>
           {cards}
         </StylesCarousel>
       ) : (
