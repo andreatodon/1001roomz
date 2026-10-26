@@ -6,7 +6,16 @@ import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react'
  * Carosello orizzontale degli stili: scorre con il dito, con il trackpad
  * o con le frecce. Le card arrivano già pronte come `children` (elementi <li>).
  */
-export function StylesCarousel({ children, footer }: { children: ReactNode; footer?: ReactNode }) {
+export function StylesCarousel({
+  children,
+  footer,
+  resetKey,
+}: {
+  children: ReactNode
+  footer?: ReactNode
+  /** Quando cambia (per esempio con il filtro per stanza) il carosello torna all'inizio. */
+  resetKey?: string
+}) {
   const trackRef = useRef<HTMLUListElement>(null)
   const [atStart, setAtStart] = useState(true)
   const [atEnd, setAtEnd] = useState(false)
@@ -29,6 +38,14 @@ export function StylesCarousel({ children, footer }: { children: ReactNode; foot
       window.removeEventListener('resize', update)
     }
   }, [update])
+
+  // Cambiate le card: torna all'inizio e ricalcola le frecce.
+  useEffect(() => {
+    const el = trackRef.current
+    if (!el) return
+    el.scrollTo({ left: 0 })
+    update()
+  }, [resetKey, update])
 
   const scrollByPage = (direction: 1 | -1) => {
     const el = trackRef.current

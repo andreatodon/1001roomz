@@ -79,6 +79,16 @@ export const fallbackHome: HomePage = {
     text: 'Ogni stile è un modo di stare in casa. Alcuni vengono dal cinema, altri dal design.',
     ctaLabel: 'Scegli il tuo stile',
     layout: 'carousel',
+    filter: {
+      allLabel: 'Tutti',
+      bagno: 'Bagno',
+      soggiorno: 'Soggiorno',
+      'camera-da-letto': 'Camera da letto',
+      cucina: 'Cucina',
+      ariaLabel: 'Filtra gli stili per stanza',
+      countOne: 'stile',
+      countMany: 'stili',
+    },
   },
   whatYouGet: {
     title: 'Cosa ricevi',

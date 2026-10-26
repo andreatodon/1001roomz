@@ -2,7 +2,7 @@ import type { HomePage, SiteSettings, Style } from '@/lib/types'
 import { bookingLink } from '@/lib/booking'
 import { Brackets, StyleShape } from './Shapes'
 import { SanityPicture, hasImage } from './SanityPicture'
-import { StylesCarousel } from './StylesCarousel'
+import { StylesFilter } from './StylesFilter'
 import { SiteFooter, SiteHeader } from './SiteChrome'
 
 type Props = { home: HomePage; styles: Style[]; settings: SiteSettings }
@@ -15,29 +15,33 @@ export function Landing({ home, styles, settings }: Props) {
   const isCarousel = home.stylesSection.layout !== 'grid'
   const cover = isCarousel ? { width: 560, height: 700 } : { width: 480, height: 360 }
 
-  const styleCards = styles.map((s) => (
-    <li key={s._id}>
-      <a href={`/stili/${s.slug}`} className={`style-card${s.highlighted ? ' is-dark' : ''}`}>
-        <div className="style-visual">
-          {hasImage(s.coverImage) ? (
-            <div className="style-cover">
-              <SanityPicture
-                image={s.coverImage}
-                width={cover.width}
-                height={cover.height}
-                sizes="(max-width: 560px) 80vw, 280px"
-                fallbackAlt={s.title}
-              />
-            </div>
-          ) : (
-            <StyleShape icon={s.icon} />
-          )}
-        </div>
-        <h3>{s.title}</h3>
-        <p>{s.shortDescription}</p>
-      </a>
-    </li>
-  ))
+  const styleCards = styles.map((s) => ({
+    id: s._id,
+    rooms: s.rooms ?? [],
+    card: (
+      <li key={s._id}>
+        <a href={`/stili/${s.slug}`} className={`style-card${s.highlighted ? ' is-dark' : ''}`}>
+          <div className="style-visual">
+            {hasImage(s.coverImage) ? (
+              <div className="style-cover">
+                <SanityPicture
+                  image={s.coverImage}
+                  width={cover.width}
+                  height={cover.height}
+                  sizes="(max-width: 560px) 80vw, 280px"
+                  fallbackAlt={s.title}
+                />
+              </div>
+            ) : (
+              <StyleShape icon={s.icon} />
+            )}
+          </div>
+          <h3>{s.title}</h3>
+          <p>{s.shortDescription}</p>
+        </a>
+      </li>
+    ),
+  }))
 
   const stylesCta = (
     <a href={bookingHref} className="btn-outline" {...bookingProps}>
@@ -134,24 +138,14 @@ export function Landing({ home, styles, settings }: Props) {
         <div className="divider" id="stili" />
         <section className="section bg-paper-2">
           <div className="container">
-            <div className="section-head">
-              <h2 className="h-section multiline">{home.stylesSection.title}</h2>
-              <p className="eyebrow">
-                {styles.length} {styles.length === 1 ? 'stile' : 'stili'}
-              </p>
-            </div>
-            <p className="body muted styles-intro">{home.stylesSection.text}</p>
-
-            {isCarousel ? (
-              <StylesCarousel footer={stylesCta}>{styleCards}</StylesCarousel>
-            ) : (
-              <>
-                <ul className="styles-grid" style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-                  {styleCards}
-                </ul>
-                <div className="styles-cta">{stylesCta}</div>
-              </>
-            )}
+            <StylesFilter
+              title={home.stylesSection.title}
+              text={home.stylesSection.text}
+              items={styleCards}
+              labels={home.stylesSection.filter}
+              layout={isCarousel ? 'carousel' : 'grid'}
+              cta={stylesCta}
+            />
           </div>
         </section>
 

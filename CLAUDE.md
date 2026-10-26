@@ -29,6 +29,8 @@ lib/types.ts                tipi dei contenuti
 lib/fallback.ts             testi di partenza: il sito li mostra se un campo nel CMS è vuoto
 lib/content.ts              lettura dal CMS + unione con i testi di partenza (getContent, getStylePage)
 lib/booking.ts              link dei pulsanti "Prenota", con lo stile come parametro `stile`
+lib/rooms.ts                tipi di stanza per il filtro degli stili (valori fissi)
+components/StylesFilter.tsx sezione stili della home con i tab per stanza (client component)
 lib/seedDocs.ts             documenti di partenza (pulsante nello Studio e npm run seed)
 sanity/schemaTypes/         schemi: homePage, siteSettings, stylePage (singleton), style
 sanity/lib/queries.ts       query GROQ
@@ -49,6 +51,7 @@ sanity.config.ts            Studio: struttura, singleton, azioni
 - `homePage`, `siteSettings` e `stylePage` sono documenti unici, con ID fisso uguale al nome del tipo. Non si creano né si duplicano.
 - Gli stili hanno un ordine globale (campo `order`). In più c'è una lista curata e ordinata in `homePage.stylesSection.styles`, con riferimenti agli stili: se è vuota si mostrano tutti.
 - Tutti i pulsanti "Prenota" passano da `bookingLink()` e usano `siteSettings.bookingUrl`. Se è vuoto puntano a `#prezzo` (fuori dalla home `/#prezzo`). Dalla pagina stile il link riceve `?stile=<nome>`: su Cal.com precompila la domanda di prenotazione con identificativo `stile`.
+- Filtro per stanza: ogni stile ha il campo `rooms` (scelta multipla tra i valori di `lib/rooms.ts`: bagno, soggiorno, camera-da-letto, cucina). I nomi dei tab si modificano in `homePage.stylesSection.filter`. Un tab compare solo se almeno uno stile ha quella stanza; uno stile senza stanze compare solo in "Tutti". La stanza scelta va nell'indirizzo come `?stanza=`. Per aggiungere una stanza: nuovo valore in `lib/rooms.ts`, poi etichetta in fallback.
 - Pagina stile: i contenuti propri di ogni stile stanno nel documento `style` (gruppo "Pagina dello stile"); titoli di sezione e pulsanti comuni a tutte le pagine stanno in `stylePage`. I testi di partenza per stile sono in `fallbackStyleDetails` (per ora solo il Minimalismo razionalista, come bozza).
 
 ## Design

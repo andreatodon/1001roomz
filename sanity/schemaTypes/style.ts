@@ -1,4 +1,5 @@
 import { defineArrayMember, defineField, defineType } from 'sanity'
+import { ROOMS } from '../../lib/rooms'
 
 export const style = defineType({
   name: 'style',
@@ -33,6 +34,17 @@ export const style = defineType({
       rows: 2,
       group: 'card',
       validation: (r) => r.required().max(160),
+    }),
+    defineField({
+      name: 'rooms',
+      title: 'Stanze',
+      description:
+        'Per quali stanze va bene questo stile. Decide in quali tab della home compare. Se non ne scegli nessuna, lo stile compare solo in "Tutti".',
+      type: 'array',
+      group: 'card',
+      of: [defineArrayMember({ type: 'string' })],
+      options: { list: ROOMS.map((r) => ({ title: r.title, value: r.value })), layout: 'grid' },
+      validation: (r) => r.unique(),
     }),
     defineField({
       name: 'icon',
@@ -205,6 +217,12 @@ export const style = defineType({
   ],
   orderings: [{ title: 'Ordine', name: 'orderAsc', by: [{ field: 'order', direction: 'asc' }] }],
   preview: {
-    select: { title: 'title', subtitle: 'shortDescription', media: 'coverImage' },
+    select: { title: 'title', subtitle: 'shortDescription', media: 'coverImage', rooms: 'rooms' },
+    prepare: ({ title, subtitle, media, rooms }) => {
+      const names = ((rooms as string[] | undefined) ?? [])
+        .map((v) => ROOMS.find((r) => r.value === v)?.title)
+        .filter(Boolean)
+      return { title, subtitle: names.length ? names.join(', ') : subtitle, media }
+    },
   },
 })

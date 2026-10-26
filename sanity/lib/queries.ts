@@ -7,7 +7,8 @@ export const stylesQuery = groq`*[_type == "style"] | order(order asc, title asc
   shortDescription,
   icon,
   highlighted,
-  coverImage
+  coverImage,
+  rooms
 }`
 
 export const homePageQuery = groq`*[_type == "homePage"][0] {
@@ -19,6 +20,7 @@ export const homePageQuery = groq`*[_type == "homePage"][0] {
     text,
     ctaLabel,
     layout,
+    filter,
     "styles": styles[]-> {
       _id,
       title,
@@ -26,7 +28,8 @@ export const homePageQuery = groq`*[_type == "homePage"][0] {
       shortDescription,
       icon,
       highlighted,
-      coverImage
+      coverImage,
+      rooms
     }
   },
   whatYouGet,
@@ -56,6 +59,7 @@ export const styleBySlugQuery = groq`*[_type == "style" && slug.current == $slug
   icon,
   highlighted,
   coverImage,
+  rooms,
   intro,
   gallery,
   traits[] { _key, title, text, colors[] { _key, name, hex } },

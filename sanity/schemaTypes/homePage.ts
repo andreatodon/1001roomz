@@ -1,4 +1,5 @@
 import { defineArrayMember, defineField, defineType } from 'sanity'
+import { ROOMS } from '../../lib/rooms'
 
 const str = (name: string, title: string, description?: string) =>
   defineField({ name, title, type: 'string', description })
@@ -110,6 +111,25 @@ export const homePage = defineType({
           validation: (r) => r.unique(),
         }),
         str('ctaLabel', 'Testo del pulsante'),
+        defineField({
+          name: 'filter',
+          title: 'Filtro per stanza',
+          description:
+            'I tab sopra gli stili. Un tab compare solo se almeno uno stile ha quella stanza (Stili → nome dello stile → Stanze).',
+          type: 'object',
+          options: { collapsible: true, collapsed: true },
+          fields: [
+            str('allLabel', 'Tab "tutti"', 'Il primo tab, che mostra tutti gli stili.'),
+            ...ROOMS.map((r) => str(r.value, `Tab "${r.title}"`)),
+            str(
+              'ariaLabel',
+              'Descrizione per lettori di schermo',
+              'Non si vede. Esempio: "Filtra gli stili per stanza".',
+            ),
+            str('countOne', 'Conteggio, singolare', 'Accanto al numero, per esempio "stile".'),
+            str('countMany', 'Conteggio, plurale', 'Accanto al numero, per esempio "stili".'),
+          ],
+        }),
       ],
     }),
     defineField({

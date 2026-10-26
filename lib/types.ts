@@ -1,3 +1,5 @@
+import type { RoomKey } from './rooms'
+
 export type SanityImage = {
   _type?: 'image'
   asset?: { _ref: string; _type?: 'reference' }
@@ -16,6 +18,8 @@ export type Style = {
   icon?: StyleIcon
   highlighted?: boolean
   coverImage?: SanityImage
+  /** Stanze per cui va bene lo stile: decidono in quali tab compare. */
+  rooms?: RoomKey[]
 }
 
 export type StyleTrait = {
@@ -65,6 +69,13 @@ export type StylePageLabels = {
   galleryPlaceholder: string
 }
 
+export type StylesFilterLabels = {
+  allLabel: string
+  ariaLabel: string
+  countOne: string
+  countMany: string
+} & Record<RoomKey, string>
+
 export type TitledItem = { _key?: string; title: string; text: string }
 
 export type HomePage = {
@@ -83,6 +94,7 @@ export type HomePage = {
     text: string
     ctaLabel: string
     layout?: 'carousel' | 'grid'
+    filter: StylesFilterLabels
     /** Stili scelti e ordinati nel CMS. Vuoto = tutti gli stili, in ordine. */
     styles?: (Style | null)[]
   }
