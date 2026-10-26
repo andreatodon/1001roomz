@@ -298,9 +298,6 @@ img {
   gap: 28px;
   margin-top: 8px;
 }
-.hero-btn-diamond {
-  background: var(--paper);
-}
 .hero-placeholder {
   font-size: 13px;
   color: var(--muted);
@@ -322,12 +319,6 @@ img {
 .hero--image .btn:hover {
   background: transparent;
   color: var(--paper);
-}
-.hero--image .btn .hero-btn-diamond {
-  background: var(--ink);
-}
-.hero--image .btn:hover .hero-btn-diamond {
-  background: var(--paper);
 }
 .hero--image a:focus-visible {
   outline: 2px solid var(--paper);
@@ -365,8 +356,21 @@ img {
 /* Steps */
 .steps {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  /* Le colonne seguono il numero di passi nel CMS */
+  grid-template-columns: repeat(var(--steps, 3), minmax(0, 1fr));
   margin-top: 56px;
+}
+.step-tag {
+  margin-left: auto;
+  padding: 3px 8px;
+  border: 1px solid var(--ink);
+  border-radius: 2px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink);
+  white-space: nowrap;
 }
 .step {
   display: flex;
@@ -446,9 +450,6 @@ img {
 }
 .style-cover img {
   object-fit: cover;
-}
-.styles-cta {
-  margin-top: 48px;
 }
 
 /* Tab per stanza, sopra gli stili */
@@ -779,9 +780,6 @@ a.style-card:focus-visible {
 .sp-intro {
   font-size: 20px;
   line-height: 1.55;
-}
-.sp-btn-diamond {
-  background: var(--paper);
 }
 
 .sp-gallery-wrap {

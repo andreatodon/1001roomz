@@ -27,9 +27,7 @@ export function SiteHeader({ lang, settings, alternateHref, onHome = false }: He
         <nav className="nav-links" aria-label={ui.navLabel}>
           <a href={section('stili')}>{settings.navStyles}</a>
           <a href={section('come-funziona')}>{settings.navHowItWorks}</a>
-          <a href={section('guide')} className="muted">
-            {settings.navGuides}
-          </a>
+          <a href={section('faq')}>{settings.navFaq}</a>
           <a
             href={alternateHref}
             className="lang-switch"

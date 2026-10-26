@@ -70,7 +70,6 @@ export function StyleDetailPage({ lang, style, styles, labels, settings }: Style
                 <p className="sp-intro">{style.intro || style.shortDescription}</p>
                 <div className="hero-actions">
                   <a href={book.href} className="btn" {...book.props}>
-                    <span className="diamond-fill sp-btn-diamond" aria-hidden="true" />
                     {labels.bookLabel}
                   </a>
                   <a href={unsure.href} className="link-underline" {...unsure.props}>
@@ -233,7 +232,6 @@ export function StyleDetailPage({ lang, style, styles, labels, settings }: Style
             <p className="body sp-cta-text">{labels.ctaText}</p>
             <div className="hero-actions sp-cta-actions">
               <a href={book.href} className="btn btn-lg btn-inv" {...book.props}>
-                <span className="diamond-fill" aria-hidden="true" />
                 {labels.bookLabel}
               </a>
               <a href={unsure.href} className="link-underline" {...unsure.props}>

@@ -15,7 +15,6 @@ type Props = {
   labels: StylesFilterLabels
   ui: UiStrings
   layout: 'carousel' | 'grid'
-  cta: ReactNode
 }
 
 const PARAM = 'stanza'
@@ -25,7 +24,7 @@ const PARAM = 'stanza'
  * dal server; qui si sceglie solo quali mostrare. La stanza scelta resta
  * nell'indirizzo (?stanza=bagno), così il link si può condividere.
  */
-export function StylesFilter({ title, text, items, labels, ui, layout, cta }: Props) {
+export function StylesFilter({ title, text, items, labels, ui, layout }: Props) {
   const [room, setRoom] = useState<RoomKey | null>(null)
 
   // Solo le stanze con almeno uno stile, nell'ordine fisso.
@@ -79,16 +78,13 @@ export function StylesFilter({ title, text, items, labels, ui, layout, cta }: Pr
       )}
 
       {layout === 'carousel' ? (
-        <StylesCarousel footer={cta} resetKey={room ?? 'tutti'} ui={ui}>
+        <StylesCarousel resetKey={room ?? 'tutti'} ui={ui}>
           {cards}
         </StylesCarousel>
       ) : (
-        <>
-          <ul className="styles-grid" style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-            {cards}
-          </ul>
-          <div className="styles-cta">{cta}</div>
-        </>
+        <ul className="styles-grid" style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+          {cards}
+        </ul>
       )}
     </>
   )

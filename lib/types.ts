@@ -88,11 +88,10 @@ export type HomePage = {
     image?: SanityImage
   }
   problem: { eyebrow: string; title: string; paragraphs: string[]; highlight: string }
-  howItWorks: { title: string; eyebrow: string; steps: TitledItem[] }
+  howItWorks: { title: string; eyebrow: string; steps: (TitledItem & { tag?: string })[] }
   stylesSection: {
     title: string
     text: string
-    ctaLabel: string
     layout?: 'carousel' | 'grid'
     filter: StylesFilterLabels
     /** Stili scelti e ordinati nel CMS. Vuoto = tutti gli stili, in ordine. */
@@ -117,7 +116,7 @@ export type SiteSettings = {
   footerText: string
   navStyles: string
   navHowItWorks: string
-  navGuides: string
+  navFaq: string
   navBook: string
   metaTitle: string
   metaDescription: string

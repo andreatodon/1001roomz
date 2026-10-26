@@ -62,23 +62,28 @@ const fallbackHome: HomePage = {
   },
   howItWorks: {
     title: 'How it works',
-    eyebrow: 'Three steps, not thirty',
+    eyebrow: 'Four steps, not thirty',
     steps: [
       { title: 'Pick a style.', text: 'A few, well thought out. Not a thousand.' },
       {
         title: 'We talk about you.',
         text: 'A 30-minute consultation to understand what you already have, what you love, what you can’t stand.',
+        tag: 'Free',
+      },
+      {
+        title: 'Confirm and pay.',
+        text: 'If you want the plan, we send you the bank transfer details. If it doesn’t convince you, that’s it.',
+        tag: '[€ ...]',
       },
       {
         title: 'Get your plan.',
-        text: 'A list of items with links and budget, in buying order, plus instructions to make it yours. You do the shopping, but you already know what and why.',
+        text: 'You send us measurements and photos. You get a list of items with links and budget, in buying order, plus instructions to make it yours. You do the shopping, but you already know what and why.',
       },
     ],
   },
   stylesSection: {
     title: 'One room at a time.\nStart with a style.',
     text: 'Each style is a way of living at home. Some come from cinema, others from design.',
-    ctaLabel: 'Choose your style',
     layout: 'carousel',
     filter: {
       allLabel: 'All',
@@ -164,7 +169,7 @@ const fallbackSettings: SiteSettings = {
   footerText: '© 2026 1001 Rooms',
   navStyles: 'Styles',
   navHowItWorks: 'How it works',
-  navGuides: 'Guides',
+  navFaq: 'FAQ',
   navBook: 'Book',
   metaTitle: '1001 Rooms · One room at a time',
   metaDescription:

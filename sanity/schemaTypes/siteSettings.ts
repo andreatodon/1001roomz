@@ -28,7 +28,7 @@ export const siteSettings = defineType({
     { ...ls('footerText', 'Testo del footer'), group: 'general' },
     { ...ls('navStyles', 'Voce "Stili"'), group: 'nav' },
     { ...ls('navHowItWorks', 'Voce "Come funziona"'), group: 'nav' },
-    { ...ls('navGuides', 'Voce "Guide"'), group: 'nav' },
+    { ...ls('navFaq', 'Voce "FAQ"'), group: 'nav' },
     { ...ls('navBook', 'Pulsante "Prenota"'), group: 'nav' },
     {
       ...ls('metaTitle', 'Titolo della home', 'Quello che compare nella scheda del browser e su Google.'),

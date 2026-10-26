@@ -17,6 +17,24 @@ const titledItems = (name: string, title: string) =>
     ],
   })
 
+const steps = defineField({
+  name: 'steps',
+  title: 'Passi',
+  type: 'array',
+  of: [
+    defineArrayMember({
+      type: 'object',
+      name: 'step',
+      fields: [
+        ls('title', 'Titolo'),
+        lt('text', 'Testo'),
+        ls('tag', 'Etichetta', 'Facoltativa, accanto al numero. Per esempio "Gratis" o il prezzo.'),
+      ],
+      preview: { select: { title: 'title.it', subtitle: 'tag.it' } },
+    }),
+  ],
+})
+
 export const homePage = defineType({
   name: 'homePage',
   title: 'Home page',
@@ -71,7 +89,7 @@ export const homePage = defineType({
       title: 'Come funziona',
       type: 'object',
       group: 'sections',
-      fields: [ls('title', 'Titolo'), ls('eyebrow', 'Occhiello'), titledItems('steps', 'Passi')],
+      fields: [ls('title', 'Titolo'), ls('eyebrow', 'Occhiello'), steps],
     }),
     defineField({
       name: 'stylesSection',
@@ -105,7 +123,6 @@ export const homePage = defineType({
           of: [defineArrayMember({ type: 'reference', to: [{ type: 'style' }] })],
           validation: (r) => r.unique(),
         }),
-        ls('ctaLabel', 'Testo del pulsante'),
         defineField({
           name: 'filter',
           title: 'Filtro per stanza',

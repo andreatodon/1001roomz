@@ -54,7 +54,7 @@ export function plainStarterDocuments(lang: Lang): StarterDoc[] {
     _type: 'homePage',
     hero: h.hero,
     problem: h.problem,
-    howItWorks: { ...h.howItWorks, steps: h.howItWorks.steps.map((s, i) => ({ _key: key(i), _type: 'item', ...s })) },
+    howItWorks: { ...h.howItWorks, steps: h.howItWorks.steps.map((s, i) => ({ _key: key(i), _type: 'step', ...s })) },
     stylesSection: {
       ...h.stylesSection,
       styles: fallbackStyles.map((s, i) => ({ _key: key(i), _type: 'reference', _ref: s._id })),

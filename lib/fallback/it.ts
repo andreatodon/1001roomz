@@ -63,23 +63,28 @@ const fallbackHome: HomePage = {
   },
   howItWorks: {
     title: 'Come funziona',
-    eyebrow: 'Tre passi, non trenta',
+    eyebrow: 'Quattro passi, non trenta',
     steps: [
       { title: 'Scegli uno stile.', text: 'Pochi, pensati bene. Non mille.' },
       {
         title: 'Parliamo di te.',
         text: 'Una consulenza di 30 minuti per capire cosa hai già, cosa ami, cosa non sopporti.',
+        tag: 'Gratis',
+      },
+      {
+        title: 'Confermi e paghi.',
+        text: 'Se vuoi il piano, ti mandiamo i dati per il bonifico. Se non ti convince, finisce lì.',
+        tag: '[€ ...]',
       },
       {
         title: 'Ricevi il tuo piano.',
-        text: 'Lista di oggetti con link e budget, in ordine di acquisto, più le istruzioni per farla tua. Poi compri tu, ma sai già cosa e perché.',
+        text: 'Ci mandi misure e foto. Ricevi la lista di oggetti con link e budget, in ordine di acquisto, più le istruzioni per farla tua. Poi compri tu, ma sai già cosa e perché.',
       },
     ],
   },
   stylesSection: {
     title: 'Una stanza alla volta.\nComincia da uno stile.',
     text: 'Ogni stile è un modo di stare in casa. Alcuni vengono dal cinema, altri dal design.',
-    ctaLabel: 'Scegli il tuo stile',
     layout: 'carousel',
     filter: {
       allLabel: 'Tutti',
@@ -165,7 +170,7 @@ const fallbackSettings: SiteSettings = {
   footerText: '© 2026 1001 Rooms',
   navStyles: 'Stili',
   navHowItWorks: 'Come funziona',
-  navGuides: 'Guide',
+  navFaq: 'FAQ',
   navBook: 'Prenota',
   metaTitle: '1001 Rooms · Una stanza alla volta',
   metaDescription:

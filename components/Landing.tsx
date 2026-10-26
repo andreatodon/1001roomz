@@ -1,3 +1,4 @@
+import type { CSSProperties } from 'react'
 import type { HomePage, SiteSettings, Style } from '@/lib/types'
 import { bookingLink } from '@/lib/booking'
 import { paths, type Lang } from '@/lib/i18n'
@@ -46,12 +47,6 @@ export function Landing({ lang, home, styles, settings }: Props) {
     ),
   }))
 
-  const stylesCta = (
-    <a href={bookingHref} className="btn-outline" {...bookingProps}>
-      {home.stylesSection.ctaLabel}
-    </a>
-  )
-
   return (
     <>
       <SiteHeader lang={lang} settings={settings} alternateHref={paths.home(lang === 'it' ? 'en' : 'it')} onHome />
@@ -79,7 +74,6 @@ export function Landing({ lang, home, styles, settings }: Props) {
               <p className="lead hero-text">{home.hero.text}</p>
               <div className="hero-actions">
                 <a href="#stili" className="btn">
-                  <span className="diamond-fill hero-btn-diamond" aria-hidden="true" />
                   {home.hero.ctaLabel}
                 </a>
                 <a href="#come-funziona" className="link-underline">
@@ -118,12 +112,23 @@ export function Landing({ lang, home, styles, settings }: Props) {
               <h2 className="h-section">{home.howItWorks.title}</h2>
               <p className="eyebrow">{home.howItWorks.eyebrow}</p>
             </div>
-            <ol className="steps" style={{ listStyle: 'none', padding: 0, margin: '56px 0 0' }}>
+            <ol
+              className="steps"
+              style={
+                {
+                  listStyle: 'none',
+                  padding: 0,
+                  margin: '56px 0 0',
+                  '--steps': home.howItWorks.steps.length,
+                } as CSSProperties
+              }
+            >
               {home.howItWorks.steps.map((step, i, all) => (
                 <li key={step._key || i} className="step">
                   <div className="step-num">
                     <span className={i === all.length - 1 ? 'diamond-fill' : 'diamond'} aria-hidden="true" />
                     <span>{String(i + 1).padStart(2, '0')}</span>
+                    {step.tag && <span className="step-tag">{step.tag}</span>}
                   </div>
                   <h3>{step.title}</h3>
                   <p className="body muted">{step.text}</p>
@@ -144,7 +149,6 @@ export function Landing({ lang, home, styles, settings }: Props) {
               labels={home.stylesSection.filter}
               ui={ui}
               layout={isCarousel ? 'carousel' : 'grid'}
-              cta={stylesCta}
             />
           </div>
         </section>
@@ -208,7 +212,7 @@ export function Landing({ lang, home, styles, settings }: Props) {
         </section>
 
         {/* FAQ */}
-        <div className="divider" id="guide" />
+        <div className="divider" id="faq" />
         <section className="section">
           <div className="container faq">
             <h2>{home.faqTitle}</h2>

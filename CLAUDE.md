@@ -70,6 +70,7 @@ sanity.config.ts            Studio: struttura, singleton, azioni
 - Gli stili hanno un ordine globale (campo `order`). In più c'è una lista curata e ordinata in `homePage.stylesSection.styles`, con riferimenti agli stili: se è vuota si mostrano tutti.
 - Tutti i pulsanti "Prenota" passano da `bookingLink()` e usano `siteSettings.bookingUrl`. Se è vuoto puntano a `#prezzo` (fuori dalla home `/#prezzo`). Dalla pagina stile il link riceve `?stile=<nome>`: su Cal.com precompila la domanda di prenotazione con identificativo `stile`.
 - Filtro per stanza: ogni stile ha il campo `rooms` (scelta multipla tra i valori di `lib/rooms.ts`: bagno, soggiorno, camera-da-letto, cucina). I nomi dei tab si modificano in `homePage.stylesSection.filter`. Un tab compare solo se almeno uno stile ha quella stanza; uno stile senza stanze compare solo in "Tutti". La stanza scelta va nell'indirizzo come `?stanza=`. Per aggiungere una stanza: nuova voce in `lib/rooms.ts` (`value` per dati e indirizzo, `field` senza trattini per il campo dell'etichetta), poi etichetta nei due fallback.
+- "Come funziona": le colonne seguono il numero di passi nel CMS. Ogni passo può avere un'etichetta (`tag`) accanto al numero, per esempio "Gratis" o il prezzo.
 - Pagina stile: i contenuti propri di ogni stile stanno nel documento `style` (gruppo "Pagina dello stile"); titoli di sezione e pulsanti comuni a tutte le pagine stanno in `stylePage`. I testi di partenza per stile sono in `styleDetails` dei due fallback (per ora solo il Minimalismo razionalista, come bozza).
 
 ## Design
@@ -80,7 +81,7 @@ sanity.config.ts            Studio: struttura, singleton, azioni
   - rosso `#C0392B`, solo come accento: occhielli e rombi.
 - Hero: la foto (`homePage.hero.image`) è lo sfondo a tutta larghezza, sotto un velo scuro piatto; il testo è bianco. Senza foto, fondo `--paper-2` e testo scuro.
 - Font: **Space Grotesk** per titoli, pulsanti e occhielli; **IBM Plex Sans** per il testo.
-- Segni grafici: angoli a squadra (`.bracket`, ripresi dal logo) e rombi (`.diamond`, `.diamond-fill`). Niente gradienti, ombre, emoji o angoli arrotondati: i pulsanti hanno raggio 2px.
+- Segni grafici: angoli a squadra (`.bracket`, ripresi dal logo) e rombi (`.diamond`, `.diamond-fill`). I rombi si usano in elenchi e passi, **mai dentro i pulsanti**. Niente gradienti, ombre, emoji o angoli arrotondati: i pulsanti hanno raggio 2px.
 - Logo in `public/logo.png` (scuro) e `public/logo-light.png` (chiaro, per fondi scuri).
 - Il sito deve funzionare a 390px di larghezza senza scroll orizzontale. Elementi cliccabili di almeno 44px. Pulsanti e link veri, mai `div` cliccabili. Testo alternativo su tutte le immagini.
 - Le sezioni a due colonne usano `.split` (0.9fr / 1.1fr). Sotto i 900px diventano una colonna sola.

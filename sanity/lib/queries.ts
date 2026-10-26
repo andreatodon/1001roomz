@@ -18,7 +18,6 @@ export const homePageQuery = groq`*[_type == "homePage"][0] {
   stylesSection {
     title,
     text,
-    ctaLabel,
     layout,
     filter,
     "styles": styles[]-> {
@@ -51,7 +50,7 @@ export const siteSettingsQuery = groq`*[_type == "siteSettings"][0] {
   footerText,
   navStyles,
   navHowItWorks,
-  navGuides,
+  navFaq,
   navBook,
   metaTitle,
   metaDescription
