@@ -90,10 +90,10 @@ export const style = defineType({
       name: 'gallery',
       title: 'Foto',
       description:
-        'Fino a 3 foto. La prima è la più grande: meglio una stanza intera, orizzontale. Le altre sono dettagli.',
+        'Da 1 a 9 foto, mostrate in griglia. La prima è la più grande: meglio una stanza intera. Le altre sono dettagli. Con 3, 6 o 9 foto la griglia è piena.',
       type: 'array',
       group: 'page',
-      validation: (r) => r.max(3),
+      validation: (r) => r.max(9),
       of: [
         defineArrayMember({
           type: 'image',

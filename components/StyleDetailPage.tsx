@@ -6,6 +6,22 @@ import { SiteFooter, SiteHeader } from './SiteChrome'
 
 const pad = (n: number) => String(n).padStart(2, '0')
 
+/** Riquadri vuoti mostrati finché uno stile non ha foto. */
+const PLACEHOLDER_TILES = 6
+
+/**
+ * Classi della griglia di foto. Con 3 o più foto la prima occupa 2×2 e
+ * l'ultima si allarga quanto serve per chiudere la riga (3 colonne su desktop,
+ * 2 su telefono).
+ */
+function galleryClass(n: number) {
+  const classes = ['sp-gallery', `sp-gallery-${Math.min(n, 3)}`]
+  if (n >= 3 && n % 3 === 1) classes.push('last-3')
+  if (n >= 3 && n % 3 === 2) classes.push('last-2')
+  if (n % 2 === 0) classes.push('even')
+  return classes.join(' ')
+}
+
 /** Pagina di un singolo stile, su /stili/[slug]. Le sezioni vuote nel CMS non compaiono. */
 export function StyleDetailPage({ style, styles, labels, settings }: StylePageData) {
   const book = bookingLink(settings, { style: style.title, fallback: '/#prezzo' })
@@ -66,25 +82,33 @@ export function StyleDetailPage({ style, styles, labels, settings }: StylePageDa
         <section className="sp-gallery-wrap">
           <div className="container">
             {gallery.length > 0 ? (
-              <div className={`sp-gallery sp-gallery-${gallery.length}`}>
+              <ul className={galleryClass(gallery.length)}>
                 {gallery.map((img, i) => (
-                  <div key={img.asset?._ref ?? i} className="sp-photo">
+                  <li key={img.asset?._ref ?? i} className="sp-photo">
                     <SanityPicture
                       image={img}
                       width={i === 0 ? 1600 : 800}
-                      height={i === 0 ? 1000 : 600}
-                      sizes={i === 0 ? '(max-width: 900px) 100vw, 760px' : '(max-width: 900px) 100vw, 380px'}
+                      height={i === 0 ? 1200 : 600}
+                      sizes={i === 0 ? '(max-width: 900px) 100vw, 760px' : '(max-width: 900px) 50vw, 380px'}
                       priority={i === 0}
                       fallbackAlt={`${style.title}, foto ${i + 1}`}
                     />
-                  </div>
+                  </li>
                 ))}
-              </div>
+              </ul>
             ) : (
-              <div className="sp-gallery-empty">
-                <StyleShape icon={style.icon} />
-                <p className="small">{labels.galleryPlaceholder}</p>
-              </div>
+              <ul className={galleryClass(PLACEHOLDER_TILES)} aria-label={labels.galleryPlaceholder}>
+                {Array.from({ length: PLACEHOLDER_TILES }, (_, i) => (
+                  <li key={i} className="sp-photo sp-photo-empty">
+                    {i === 0 && (
+                      <>
+                        <StyleShape icon={style.icon} />
+                        <p className="small">{labels.galleryPlaceholder}</p>
+                      </>
+                    )}
+                  </li>
+                ))}
+              </ul>
             )}
           </div>
         </section>
