@@ -45,7 +45,8 @@ export const homePage = defineType({
         defineField({
           name: 'image',
           title: 'Foto della stanza',
-          description: 'Sfondo dell’hero, a tutta larghezza sotto il testo. Formato orizzontale, almeno 2400 px di base, stanza reale con luce naturale. Usa il punto focale per scegliere cosa resta visibile.',
+          description:
+            'Sfondo dell’hero, a tutta larghezza sotto il testo. Formato orizzontale, almeno 2400 px di base, stanza reale con luce naturale. Usa il punto focale per scegliere cosa resta visibile.',
           type: 'image',
           options: { hotspot: true },
           fields: [defineField({ name: 'alt', title: 'Testo alternativo', type: 'string' })],
@@ -60,7 +61,12 @@ export const homePage = defineType({
       fields: [
         str('eyebrow', 'Occhiello'),
         txt('title', 'Titolo', 2),
-        defineField({ name: 'paragraphs', title: 'Paragrafi', type: 'array', of: [defineArrayMember({ type: 'text' })] }),
+        defineField({
+          name: 'paragraphs',
+          title: 'Paragrafi',
+          type: 'array',
+          of: [defineArrayMember({ type: 'text' })],
+        }),
         txt('highlight', 'Frase in evidenza', 2),
       ],
     }),

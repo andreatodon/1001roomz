@@ -1,4 +1,4 @@
-import type { HomePage, SiteSettings, Style } from './types'
+import type { HomePage, SiteSettings, Style, StyleDetail, StylePageLabels } from './types'
 
 /**
  * Testi di partenza della landing.
@@ -150,4 +150,78 @@ export const fallbackHome: HomePage = {
 
 export const fallbackSettings: SiteSettings = {
   footerText: '© 2026 1001 Rooms',
+}
+
+/** Testi comuni delle pagine stile. */
+export const fallbackStylePage: StylePageLabels = {
+  breadcrumb: 'Stili',
+  counter: 'Stile {n} di {totale}',
+  bookLabel: 'Prenota con questo stile',
+  unsureLabel: 'Non lo so ancora, decidiamolo insieme',
+  unsureShortLabel: 'Non lo so ancora',
+  traitsTitle: 'In breve',
+  traitsEyebrow: 'Riconoscerlo',
+  fitTitle: 'Fa per te se…',
+  notForTitle: 'Forse no, se',
+  alternativeBefore: 'In quel caso guarda',
+  alternativeAfter: ', o prenota e lo scegliamo insieme.',
+  planEyebrow: 'Esempio',
+  planTotalLabel: 'Budget totale',
+  ctaTitle: 'Ti riconosci? Partiamo da qui.',
+  ctaText: 'Consulenza di 30 minuti in videochiamata. Il piano arriva entro [... giorni]. Prezzo: [€ ...].',
+  otherStylesTitle: 'Altri stili',
+  allStylesLabel: 'Vedili tutti',
+  galleryPlaceholder: '[Foto dello stile: caricale dal CMS in Stili → nome dello stile → Pagina dello stile → Foto]',
+}
+
+/**
+ * Contenuti di partenza delle pagine stile, per slug.
+ * Bozza da rivedere: c'è solo il Minimalismo razionalista, come esempio.
+ * Gli altri stili mostrano solo le sezioni compilate nel CMS.
+ */
+export const fallbackStyleDetails: Record<string, Partial<StyleDetail>> = {
+  'minimalismo-razionalista': {
+    intro:
+      'Poco, ma tutto al suo posto. Pochi oggetti scelti bene, linee dritte, colori che non urlano. La stanza respira e tu con lei.',
+    traits: [
+      {
+        title: 'Colori',
+        text: 'Bianco, grigio calce, legno chiaro. Il nero solo per i dettagli.',
+        colors: [
+          { name: 'Bianco', hex: '#FFFFFF' },
+          { name: 'Grigio calce', hex: '#D8D6D0' },
+          { name: 'Rovere chiaro', hex: '#C9AD86' },
+          { name: 'Nero', hex: '#1A1A18' },
+        ],
+      },
+      { title: 'Materiali', text: 'Legno naturale, lino, lana grezza, metallo verniciato opaco.' },
+      {
+        title: 'Pezzi tipici',
+        text: 'Contenitori chiusi, una libreria bassa, una lampada da terra, un tappeto unito.',
+      },
+      { title: 'Regola d’oro', text: 'Ogni cosa ha un posto. Se non ce l’ha, non entra.' },
+    ],
+    fitFor: [
+      'Il disordine ti stanca anche quando non lo vedi.',
+      'Preferisci un oggetto buono a tre oggetti carini.',
+      'Vuoi una stanza che regga anche fra dieci anni.',
+    ],
+    notFor: ['Ami le collezioni in vista e gli oggetti ricordo.', 'Ti piace cambiare tutto ogni stagione.'],
+    alternativeStyle: { title: 'Vintage', slug: 'vintage' },
+    examplePlan: {
+      title: 'Un piano in questo stile, per un soggiorno',
+      text: 'Il tuo sarà diverso: parte dalla tua stanza e da quello che hai già. Questo serve a capire cosa ricevi.',
+      items: [
+        { title: 'Tappeto in lana, tinta unita', note: 'Prima di tutto: definisce la zona.', price: '[€ ...]' },
+        { title: 'Contenitore basso con ante', note: 'Sparisce tutto quello che oggi sta in giro.', price: '[€ ...]' },
+        { title: 'Lampada da terra', note: 'Luce calda nell’angolo, niente buchi nel soffitto.', price: '[€ ...]' },
+        {
+          title: 'Tende in lino, su bastone a pressione',
+          note: 'Senza trapano. Per ultime, se avanza budget.',
+          price: '[€ ...]',
+        },
+      ],
+      total: '[€ ...]',
+    },
+  },
 }

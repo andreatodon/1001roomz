@@ -1,4 +1,4 @@
-import { fallbackHome, fallbackSettings, fallbackStyles } from './fallback'
+import { fallbackHome, fallbackSettings, fallbackStyleDetails, fallbackStylePage, fallbackStyles } from './fallback'
 
 const key = (i: number) => `k${i}`
 
@@ -6,7 +6,8 @@ const key = (i: number) => `k${i}`
 export type StarterDoc = { _id: string; _type: string; [field: string]: unknown }
 
 /**
- * I documenti di partenza del CMS: Home page, Impostazioni e i 5 stili,
+ * I documenti di partenza del CMS: Home page, Impostazioni, testi comuni
+ * delle pagine stile e i 5 stili,
  * con i testi attuali della landing. Usati dal pulsante "Carica contenuti
  * di partenza" nello Studio e dallo script `npm run seed`.
  */
@@ -14,16 +15,36 @@ export function starterDocuments(): StarterDoc[] {
   const h = fallbackHome
   const minimal = fallbackStyles.find((s) => s.slug === 'minimalismo-razionalista')!
 
-  const styles = fallbackStyles.map((s, i) => ({
-    _id: s._id,
-    _type: 'style',
-    title: s.title,
-    slug: { _type: 'slug', current: s.slug },
-    shortDescription: s.shortDescription,
-    icon: s.icon,
-    highlighted: Boolean(s.highlighted),
-    order: (i + 1) * 10,
-  }))
+  const styles = fallbackStyles.map((s, i) => {
+    const d = fallbackStyleDetails[s.slug]
+    const alternative = d?.alternativeStyle && fallbackStyles.find((x) => x.slug === d.alternativeStyle?.slug)
+    return {
+      _id: s._id,
+      _type: 'style',
+      title: s.title,
+      slug: { _type: 'slug', current: s.slug },
+      shortDescription: s.shortDescription,
+      icon: s.icon,
+      highlighted: Boolean(s.highlighted),
+      order: (i + 1) * 10,
+      ...(d && {
+        intro: d.intro,
+        traits: d.traits?.map((t, j) => ({
+          _key: key(j),
+          title: t.title,
+          text: t.text,
+          colors: t.colors?.map((c, k) => ({ _key: key(k), name: c.name, hex: c.hex })),
+        })),
+        fitFor: d.fitFor,
+        notFor: d.notFor,
+        alternativeStyle: alternative ? { _type: 'reference', _ref: alternative._id } : undefined,
+        examplePlan: d.examplePlan && {
+          ...d.examplePlan,
+          items: d.examplePlan.items.map((it, j) => ({ _key: key(j), ...it })),
+        },
+      }),
+    }
+  })
 
   const homePage = {
     _id: 'homePage',
@@ -53,5 +74,7 @@ export function starterDocuments(): StarterDoc[] {
 
   const siteSettings = { _id: 'siteSettings', _type: 'siteSettings', ...fallbackSettings }
 
-  return [...styles, homePage, siteSettings]
+  const stylePage = { _id: 'stylePage', _type: 'stylePage', ...fallbackStylePage }
+
+  return [...styles, homePage, siteSettings, stylePage]
 }

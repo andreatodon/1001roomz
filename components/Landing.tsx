@@ -1,39 +1,41 @@
 import type { HomePage, SiteSettings, Style } from '@/lib/types'
+import { bookingLink } from '@/lib/booking'
 import { Brackets, StyleShape } from './Shapes'
 import { SanityPicture, hasImage } from './SanityPicture'
 import { StylesCarousel } from './StylesCarousel'
+import { SiteFooter, SiteHeader } from './SiteChrome'
 
 type Props = { home: HomePage; styles: Style[]; settings: SiteSettings }
 
 export function Landing({ home, styles, settings }: Props) {
-  const bookingHref = settings.bookingUrl || '#prezzo'
-  const external = Boolean(settings.bookingUrl)
+  const { href: bookingHref, props: bookingProps } = bookingLink(settings)
   const heroImage = hasImage(home.hero.image) ? home.hero.image : null
-  const bookingProps = external ? { target: '_blank', rel: 'noopener noreferrer' } : {}
 
   // Sezione stili: carosello o griglia, scelto dal CMS (Home page → Sezioni → Sezione stili).
   const isCarousel = home.stylesSection.layout !== 'grid'
   const cover = isCarousel ? { width: 560, height: 700 } : { width: 480, height: 360 }
 
   const styleCards = styles.map((s) => (
-    <li key={s._id} className={`style-card${s.highlighted ? ' is-dark' : ''}`}>
-      <div className="style-visual">
-        {hasImage(s.coverImage) ? (
-          <div className="style-cover">
-            <SanityPicture
-              image={s.coverImage}
-              width={cover.width}
-              height={cover.height}
-              sizes="(max-width: 560px) 80vw, 280px"
-              fallbackAlt={s.title}
-            />
-          </div>
-        ) : (
-          <StyleShape icon={s.icon} />
-        )}
-      </div>
-      <h3>{s.title}</h3>
-      <p>{s.shortDescription}</p>
+    <li key={s._id}>
+      <a href={`/stili/${s.slug}`} className={`style-card${s.highlighted ? ' is-dark' : ''}`}>
+        <div className="style-visual">
+          {hasImage(s.coverImage) ? (
+            <div className="style-cover">
+              <SanityPicture
+                image={s.coverImage}
+                width={cover.width}
+                height={cover.height}
+                sizes="(max-width: 560px) 80vw, 280px"
+                fallbackAlt={s.title}
+              />
+            </div>
+          ) : (
+            <StyleShape icon={s.icon} />
+          )}
+        </div>
+        <h3>{s.title}</h3>
+        <p>{s.shortDescription}</p>
+      </a>
     </li>
   ))
 
@@ -45,24 +47,7 @@ export function Landing({ home, styles, settings }: Props) {
 
   return (
     <>
-      <header className="nav">
-        <div className="container nav-inner">
-          <a href="#top" className="nav-logo" aria-label="1001 Rooms, torna all’inizio">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/logo.png" alt="1001 Rooms" width={411} height={46} />
-          </a>
-          <nav className="nav-links" aria-label="Principale">
-            <a href="#stili">Stili</a>
-            <a href="#come-funziona">Come funziona</a>
-            <a href="#guide" className="muted">
-              Guide
-            </a>
-            <a href={bookingHref} className="btn" {...bookingProps}>
-              Prenota
-            </a>
-          </nav>
-        </div>
-      </header>
+      <SiteHeader settings={settings} onHome />
 
       <main id="top">
         {/* HERO: la foto fa da sfondo al testo */}
@@ -253,13 +238,7 @@ export function Landing({ home, styles, settings }: Props) {
         </section>
       </main>
 
-      <footer className="footer">
-        <div className="container footer-inner">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo.png" alt="1001 Rooms" width={411} height={46} />
-          <p>{settings.footerText}</p>
-        </div>
-      </footer>
+      <SiteFooter settings={settings} />
     </>
   )
 }

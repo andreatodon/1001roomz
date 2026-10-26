@@ -17,16 +17,20 @@ Rispondi e scrivi i testi in **italiano**. Il tono del brand è asciutto e diret
 
 ```
 app/(site)/                 landing: layout.tsx (font Google), page.tsx (revalidate 60s), globals.css (tutti gli stili)
+app/(site)/stili/[slug]/    pagina di ogni stile (generata in anticipo, revalidate 60s)
 app/(studio)/studio/        Sanity Studio integrato
 components/Landing.tsx      tutte le sezioni della home, server component
+components/StyleDetailPage.tsx  la pagina di uno stile; le sezioni vuote nel CMS non compaiono
+components/SiteChrome.tsx   intestazione e footer comuni (fuori dalla home i link puntano a "/#…")
 components/StylesCarousel.tsx  carosello stili (client component)
 components/Shapes.tsx       simboli geometrici delle card stile
 components/SanityPicture.tsx immagini dal CMS via next/image + @sanity/image-url
 lib/types.ts                tipi dei contenuti
 lib/fallback.ts             testi di partenza: il sito li mostra se un campo nel CMS è vuoto
-lib/content.ts              lettura dal CMS + unione con i testi di partenza
+lib/content.ts              lettura dal CMS + unione con i testi di partenza (getContent, getStylePage)
+lib/booking.ts              link dei pulsanti "Prenota", con lo stile come parametro `stile`
 lib/seedDocs.ts             documenti di partenza (pulsante nello Studio e npm run seed)
-sanity/schemaTypes/         schemi: homePage (singleton), siteSettings (singleton), style
+sanity/schemaTypes/         schemi: homePage, siteSettings, stylePage (singleton), style
 sanity/lib/queries.ts       query GROQ
 sanity/actions/             azione "Carica contenuti di partenza" sulla Home page
 sanity.config.ts            Studio: struttura, singleton, azioni
@@ -42,9 +46,10 @@ sanity.config.ts            Studio: struttura, singleton, azioni
   5. se serve, `lib/seedDocs.ts`;
   6. infine il componente.
 - `lib/content.ts` unisce il CMS ai testi di partenza campo per campo: stringhe vuote e array vuoti non sovrascrivono i default. Le immagini vanno controllate con `hasImage()` prima di passarle a `SanityPicture`.
-- `homePage` e `siteSettings` sono documenti unici, con ID fisso uguale al nome del tipo. Non si creano né si duplicano.
+- `homePage`, `siteSettings` e `stylePage` sono documenti unici, con ID fisso uguale al nome del tipo. Non si creano né si duplicano.
 - Gli stili hanno un ordine globale (campo `order`). In più c'è una lista curata e ordinata in `homePage.stylesSection.styles`, con riferimenti agli stili: se è vuota si mostrano tutti.
-- Tutti i pulsanti "Prenota" usano `siteSettings.bookingUrl`. Se è vuoto puntano a `#prezzo`.
+- Tutti i pulsanti "Prenota" passano da `bookingLink()` e usano `siteSettings.bookingUrl`. Se è vuoto puntano a `#prezzo` (fuori dalla home `/#prezzo`). Dalla pagina stile il link riceve `?stile=<nome>`: su Cal.com precompila la domanda di prenotazione con identificativo `stile`.
+- Pagina stile: i contenuti propri di ogni stile stanno nel documento `style` (gruppo "Pagina dello stile"); titoli di sezione e pulsanti comuni a tutte le pagine stanno in `stylePage`. I testi di partenza per stile sono in `fallbackStyleDetails` (per ora solo il Minimalismo razionalista, come bozza).
 
 ## Design
 
@@ -68,7 +73,7 @@ sanity.config.ts            Studio: struttura, singleton, azioni
 ## Da fare
 
 - Contenuti: prezzo, politica di revisione o rimborso (FAQ "E se non mi piace il piano?"), link Cal.com, foto dell'hero, foto di copertina degli stili.
-- Pagina di dettaglio per stile su `/stili/[slug]` (lo slug esiste già nello schema).
+- Contenuti delle pagine stile: foto, "In breve", "Fa per te se", piano di esempio per ogni stile; rivedere la bozza del Minimalismo razionalista.
 - Pagamento con Stripe Checkout, seguito dalla prenotazione su Cal.com.
 - Questionario pre-consulenza (misure, foto, budget, cosa c'è già) e generazione con l'IA di una bozza del piano a partire da un catalogo di prodotti nel CMS, da rivedere prima dell'invio.
 - Fatturazione elettronica (per esempio Fatture in Cloud) e informativa GDPR per le foto delle case.

@@ -18,6 +18,53 @@ export type Style = {
   coverImage?: SanityImage
 }
 
+export type StyleTrait = {
+  _key?: string
+  title: string
+  text: string
+  colors?: { _key?: string; name?: string; hex: string }[]
+}
+
+export type StylePlan = {
+  title: string
+  text?: string
+  items: { _key?: string; title: string; note?: string; price?: string }[]
+  total?: string
+}
+
+/** Uno stile con i contenuti della sua pagina. I campi della pagina sono facoltativi. */
+export type StyleDetail = Style & {
+  intro?: string
+  gallery?: SanityImage[]
+  traits?: StyleTrait[]
+  fitFor?: string[]
+  notFor?: string[]
+  alternativeStyle?: { title: string; slug: string } | null
+  examplePlan?: StylePlan | null
+}
+
+/** Testi uguali per tutte le pagine stile. */
+export type StylePageLabels = {
+  breadcrumb: string
+  counter: string
+  bookLabel: string
+  unsureLabel: string
+  unsureShortLabel: string
+  traitsTitle: string
+  traitsEyebrow: string
+  fitTitle: string
+  notForTitle: string
+  alternativeBefore: string
+  alternativeAfter: string
+  planEyebrow: string
+  planTotalLabel: string
+  ctaTitle: string
+  ctaText: string
+  otherStylesTitle: string
+  allStylesLabel: string
+  galleryPlaceholder: string
+}
+
 export type TitledItem = { _key?: string; title: string; text: string }
 
 export type HomePage = {
