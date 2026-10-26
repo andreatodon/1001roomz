@@ -70,7 +70,7 @@ export function StylesFilter({ title, text, items, labels, layout, cta }: Props)
               aria-pressed={room === t.value}
               onClick={() => choose(t.value)}
             >
-              {labels[t.value] || t.title}
+              {labels[t.field] || t.title}
             </button>
           ))}
         </div>

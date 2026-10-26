@@ -120,7 +120,7 @@ export const homePage = defineType({
           options: { collapsible: true, collapsed: true },
           fields: [
             str('allLabel', 'Tab "tutti"', 'Il primo tab, che mostra tutti gli stili.'),
-            ...ROOMS.map((r) => str(r.value, `Tab "${r.title}"`)),
+            ...ROOMS.map((r) => str(r.field, `Tab "${r.title}"`)),
             str(
               'ariaLabel',
               'Descrizione per lettori di schermo',

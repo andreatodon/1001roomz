@@ -51,7 +51,7 @@ sanity.config.ts            Studio: struttura, singleton, azioni
 - `homePage`, `siteSettings` e `stylePage` sono documenti unici, con ID fisso uguale al nome del tipo. Non si creano né si duplicano.
 - Gli stili hanno un ordine globale (campo `order`). In più c'è una lista curata e ordinata in `homePage.stylesSection.styles`, con riferimenti agli stili: se è vuota si mostrano tutti.
 - Tutti i pulsanti "Prenota" passano da `bookingLink()` e usano `siteSettings.bookingUrl`. Se è vuoto puntano a `#prezzo` (fuori dalla home `/#prezzo`). Dalla pagina stile il link riceve `?stile=<nome>`: su Cal.com precompila la domanda di prenotazione con identificativo `stile`.
-- Filtro per stanza: ogni stile ha il campo `rooms` (scelta multipla tra i valori di `lib/rooms.ts`: bagno, soggiorno, camera-da-letto, cucina). I nomi dei tab si modificano in `homePage.stylesSection.filter`. Un tab compare solo se almeno uno stile ha quella stanza; uno stile senza stanze compare solo in "Tutti". La stanza scelta va nell'indirizzo come `?stanza=`. Per aggiungere una stanza: nuovo valore in `lib/rooms.ts`, poi etichetta in fallback.
+- Filtro per stanza: ogni stile ha il campo `rooms` (scelta multipla tra i valori di `lib/rooms.ts`: bagno, soggiorno, camera-da-letto, cucina). I nomi dei tab si modificano in `homePage.stylesSection.filter`. Un tab compare solo se almeno uno stile ha quella stanza; uno stile senza stanze compare solo in "Tutti". La stanza scelta va nell'indirizzo come `?stanza=`. Per aggiungere una stanza: nuova voce in `lib/rooms.ts` (`value` per dati e indirizzo, `field` senza trattini per il campo dell'etichetta), poi etichetta in fallback.
 - Pagina stile: i contenuti propri di ogni stile stanno nel documento `style` (gruppo "Pagina dello stile"); titoli di sezione e pulsanti comuni a tutte le pagine stanno in `stylePage`. I testi di partenza per stile sono in `fallbackStyleDetails` (per ora solo il Minimalismo razionalista, come bozza).
 
 ## Design
@@ -70,7 +70,8 @@ sanity.config.ts            Studio: struttura, singleton, azioni
 ## Prima di un push
 
 - La build su Vercel esegue il **controllo dei tipi**, che è il punto dove fallisce più spesso. Attenzione soprattutto ai tipi passati al client Sanity: i documenti per `createIfNotExists` sono tipizzati come `StarterDoc`.
-- In locale: `npm install`, poi `npm run typecheck` e `npm run build`.
+- In locale: `npm install`, poi `npm run typecheck`, `npx sanity schema validate` e `npm run build`. La build **non** controlla lo schema di Sanity: un nome di campo non valido passa la build e rompe lo Studio.
+- I nomi dei campi Sanity accettano solo lettere, numeri e `_` (niente trattini).
 - Messaggi di commit in italiano, brevi, che dicono cosa cambia per il sito.
 
 ## Da fare

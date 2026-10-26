@@ -83,7 +83,7 @@ export const fallbackHome: HomePage = {
       allLabel: 'Tutti',
       bagno: 'Bagno',
       soggiorno: 'Soggiorno',
-      'camera-da-letto': 'Camera da letto',
+      cameraDaLetto: 'Camera da letto',
       cucina: 'Cucina',
       ariaLabel: 'Filtra gli stili per stanza',
       countOne: 'stile',

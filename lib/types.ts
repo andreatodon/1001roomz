@@ -1,4 +1,4 @@
-import type { RoomKey } from './rooms'
+import type { RoomField, RoomKey } from './rooms'
 
 export type SanityImage = {
   _type?: 'image'
@@ -74,7 +74,7 @@ export type StylesFilterLabels = {
   ariaLabel: string
   countOne: string
   countMany: string
-} & Record<RoomKey, string>
+} & Record<RoomField, string>
 
 export type TitledItem = { _key?: string; title: string; text: string }
 
