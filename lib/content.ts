@@ -1,5 +1,6 @@
 import { client } from '@/sanity/lib/client'
 import {
+  bookingPageQuery,
   homePageQuery,
   siteSettingsQuery,
   styleBySlugQuery,
@@ -11,7 +12,7 @@ import { isSanityConfigured } from '@/sanity/env'
 import { fallbacks } from './fallback'
 import type { Lang } from './i18n'
 import { localize } from './localize'
-import type { HomePage, SiteSettings, Style, StyleDetail, StylePageLabels } from './types'
+import type { BookingPageLabels, HomePage, SiteSettings, Style, StyleDetail, StylePageLabels } from './types'
 
 /** Unisce un oggetto del CMS ai testi di partenza: i campi vuoti restano quelli di default. */
 function merge<T extends object>(base: T, override: Partial<T> | null | undefined): T {
@@ -136,4 +137,35 @@ export async function getStylePage(slug: string, lang: Lang): Promise<StylePageD
     console.error('Sanity non raggiungibile, uso i testi di default.', error)
     return fromFallback()
   }
+}
+
+export type BookingPageData = {
+  lang: Lang
+  labels: BookingPageLabels
+  home: HomePage
+  /** Lo stile scelto (da ?stile=slug), se esiste. */
+  style: Style | null
+  settings: SiteSettings
+}
+
+/** Tutto ciò che serve alla pagina di prenotazione e alla conferma. */
+export async function getBookingPage(lang: Lang, styleSlug?: string): Promise<BookingPageData> {
+  const fb = fallbacks[lang]
+  const { home, styles, settings } = await getContent(lang)
+  let labels = fb.bookingPage
+  if (isSanityConfigured) {
+    try {
+      const raw = await client.fetch<Partial<BookingPageLabels> | null>(bookingPageQuery)
+      labels = merge(fb.bookingPage, raw ? localize<Partial<BookingPageLabels>>(raw, lang) : null)
+    } catch (error) {
+      console.error('Sanity non raggiungibile, uso i testi di default.', error)
+    }
+  }
+  // Lo stile si cerca tra tutti, non solo tra quelli scelti per il carosello della home.
+  let style = styleSlug ? (styles.find((s) => s.slug === styleSlug) ?? null) : null
+  if (styleSlug && !style) {
+    const page = await getStylePage(styleSlug, lang)
+    style = page?.style ?? null
+  }
+  return { lang, labels, home, style, settings }
 }

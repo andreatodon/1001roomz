@@ -1,5 +1,5 @@
 import type { Lang } from '../i18n'
-import type { HomePage, SiteSettings, Style, StyleDetail, StylePageLabels } from '../types'
+import type { BookingPageLabels, HomePage, SiteSettings, Style, StyleDetail, StylePageLabels } from '../types'
 import { en } from './en'
 import { it } from './it'
 
@@ -9,6 +9,7 @@ export type StarterContent = {
   home: HomePage
   settings: SiteSettings
   stylePage: StylePageLabels
+  bookingPage: BookingPageLabels
   /** Contenuti delle pagine stile, per slug. */
   styleDetails: Record<string, Partial<StyleDetail>>
 }

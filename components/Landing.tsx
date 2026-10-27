@@ -12,7 +12,7 @@ type Props = { lang: Lang; home: HomePage; styles: Style[]; settings: SiteSettin
 
 export function Landing({ lang, home, styles, settings }: Props) {
   const ui = uiFor(lang)
-  const { href: bookingHref, props: bookingProps } = bookingLink(settings)
+  const { href: bookingHref, props: bookingProps } = bookingLink(lang)
   const heroImage = hasImage(home.hero.image) ? home.hero.image : null
 
   // Sezione stili: carosello o griglia, scelto dal CMS (Home page → Sezioni → Sezione stili).

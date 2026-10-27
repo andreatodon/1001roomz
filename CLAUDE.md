@@ -16,28 +16,31 @@ Rispondi in **italiano**. I testi del sito sono in italiano (lingua principale) 
 ## Struttura
 
 ```
-middleware.ts               indirizzi pubblici → pagine interne: / e /stili/x → /it/...; /en/styles/x → /en/stili/x
+middleware.ts               indirizzi pubblici → pagine interne: / e /stili/x → /it/...; /en/styles/x → /en/stili/x, /en/book → /en/prenota
 app/(site)/globals.css      tutti gli stili
 app/(site)/[lang]/          layout.tsx (html lang, font), page.tsx (home, revalidate 60s, hreflang)
 app/(site)/[lang]/stili/[slug]/  pagina di ogni stile, generata in anticipo per le due lingue
+app/(site)/[lang]/prenota/   prenotazione (legge ?stile= e ?stanza=) e prenota/confermata (noindex)
 app/(studio)/studio/        Sanity Studio integrato
 components/Landing.tsx      tutte le sezioni della home, server component
 components/StyleDetailPage.tsx  la pagina di uno stile; le sezioni vuote nel CMS non compaiono
+components/BookingPage.tsx  pagina di prenotazione e di conferma
+components/CalEmbed.tsx     calendario Cal.com incorporato (client component)
 components/SiteChrome.tsx   intestazione e footer comuni (fuori dalla home i link puntano a "/#…")
 components/StylesCarousel.tsx  carosello stili (client component)
 components/Shapes.tsx       simboli geometrici delle card stile
 components/SanityPicture.tsx immagini dal CMS via next/image + @sanity/image-url
 lib/types.ts                tipi dei contenuti
 lib/fallback/it.ts, en.ts   testi di partenza per lingua, stessa struttura: il sito li mostra se un campo nel CMS è vuoto
-lib/i18n.ts                 lingue e percorsi (paths.home, paths.style, paths.section)
+lib/i18n.ts                 lingue, percorsi (paths.home, .style, .booking, .bookingConfirmed, .section) e nomi inglesi degli indirizzi (EN_SEGMENTS)
 lib/localize.ts             sceglie la lingua nei contenuti letti dal CMS
 lib/ui.ts                   testi non visibili (aria, alt di riserva) per lingua
 lib/content.ts              lettura dal CMS + lingua + unione con i testi di partenza (getContent(lang), getStylePage(slug, lang))
-lib/booking.ts              link dei pulsanti "Prenota", con lo stile come parametro `stile`
+lib/booking.ts              link dei pulsanti "Prenota" (verso /prenota) e lettura del link Cal.com per incorporarlo
 lib/rooms.ts                tipi di stanza per il filtro degli stili (valori fissi)
 components/StylesFilter.tsx sezione stili della home con i tab per stanza (client component)
 lib/seedDocs.ts             documenti di partenza (pulsante nello Studio e npm run seed)
-sanity/schemaTypes/         schemi: homePage, siteSettings, stylePage (singleton), style; locale.ts (localeString, localeText)
+sanity/schemaTypes/         schemi: homePage, siteSettings, stylePage, bookingPage (singleton), style; locale.ts (localeString, localeText)
 sanity/lib/toBilingual.ts   converte i testi semplici in bilingui seguendo lo schema (seed e conversione)
 sanity/lib/studioEnv.ts     riconosce lo Studio delle anteprime (sola lettura)
 sanity/lib/queries.ts       query GROQ
@@ -47,8 +50,8 @@ sanity.config.ts            Studio: struttura, singleton, azioni
 
 ## Lingue
 
-- Italiano alla radice (`/`, `/stili/<slug>`), inglese sotto `/en` (`/en`, `/en/styles/<slug>`). Lo slug è uguale nelle due lingue. Le ancore delle sezioni (`#stili`, `#prezzo`…) sono le stesse.
-- Nei link non si scrivono percorsi a mano: si usano `paths.home(lang)`, `paths.style(lang, slug)`, `paths.section(lang, ancora)`.
+- Italiano alla radice (`/`, `/stili/<slug>`, `/prenota`), inglese sotto `/en` (`/en`, `/en/styles/<slug>`, `/en/book`). I nomi inglesi degli indirizzi stanno in `EN_SEGMENTS` (`lib/i18n.ts`): per una pagina nuova con nome diverso in inglese si aggiunge lì. Lo slug è uguale nelle due lingue. Le ancore delle sezioni (`#stili`, `#prezzo`…) sono le stesse.
+- Nei link non si scrivono percorsi a mano: si usano `paths.home(lang)`, `paths.style(lang, slug)`, `paths.booking(lang, { style, room })`, `paths.section(lang, ancora)`.
 - Nel CMS ogni testo visibile è un campo `localeString` o `localeText` (`{ it, en }`, affiancati). Per gli schemi ci sono gli aiuti `ls()` e `lt()` in `locale.ts`. Restano testi semplici solo i valori uguali nelle due lingue: slug, prezzi, codici colore, valori delle stanze, layout.
 - In lettura `localize()` sceglie la lingua: se l'inglese è vuoto mostra l'italiano; un testo semplice (scritto prima del bilingue) resta com'è.
 - Ogni testo di partenza esiste in `lib/fallback/it.ts` **e** in `lib/fallback/en.ts`, voce per voce. La bozza inglese è da rivedere con il proprietario.
@@ -66,9 +69,10 @@ sanity.config.ts            Studio: struttura, singleton, azioni
   5. se serve, `lib/seedDocs.ts`;
   6. infine il componente.
 - `lib/content.ts` unisce il CMS ai testi di partenza campo per campo: stringhe vuote e array vuoti non sovrascrivono i default. Le immagini vanno controllate con `hasImage()` prima di passarle a `SanityPicture`.
-- `homePage`, `siteSettings` e `stylePage` sono documenti unici, con ID fisso uguale al nome del tipo. Non si creano né si duplicano.
+- `homePage`, `siteSettings`, `stylePage` e `bookingPage` sono documenti unici, con ID fisso uguale al nome del tipo. Non si creano né si duplicano.
 - Gli stili hanno un ordine globale (campo `order`). In più c'è una lista curata e ordinata in `homePage.stylesSection.styles`, con riferimenti agli stili: se è vuota si mostrano tutti.
-- Tutti i pulsanti "Prenota" passano da `bookingLink()` e usano `siteSettings.bookingUrl`. Se è vuoto puntano a `#prezzo` (fuori dalla home `/#prezzo`). Dalla pagina stile il link riceve `?stile=<nome>`: su Cal.com precompila la domanda di prenotazione con identificativo `stile`.
+- Prenotazione: consulenza **gratuita**, poi bonifico per il piano (niente pagamento online per ora). Tutti i pulsanti "Prenota" passano da `bookingLink(lang, { style })` e portano a `/prenota` (`/en/book`), con `?stile=<slug>` dalla pagina stile. La pagina mostra lo stile scelto, i passi di "Come funziona" della home e il calendario Cal.com incorporato.
+- Cal.com: il link sta in `siteSettings.bookingUrl` (e `bookingUrlEn` per l'inglese), per esempio `https://cal.com/1001rooms/consulenza`; `calEmbedFrom()` ne ricava l'evento. Le domande dell'evento con identificativo `stile` e `stanza` si precompilano con il nome dello stile e il nome della stanza nella lingua della pagina (deve coincidere con le opzioni su Cal.com). A prenotazione fatta (evento `bookingSuccessful`) si va a `/prenota/confermata`. Senza link compare `bookingPage.unavailableText` al posto del calendario.
 - Filtro per stanza: ogni stile ha il campo `rooms` (scelta multipla tra i valori di `lib/rooms.ts`: bagno, soggiorno, camera-da-letto, cucina). I nomi dei tab si modificano in `homePage.stylesSection.filter`. Un tab compare solo se almeno uno stile ha quella stanza; uno stile senza stanze compare solo in "Tutti". La stanza scelta va nell'indirizzo come `?stanza=`. Per aggiungere una stanza: nuova voce in `lib/rooms.ts` (`value` per dati e indirizzo, `field` senza trattini per il campo dell'etichetta), poi etichetta nei due fallback.
 - "Come funziona": le colonne seguono il numero di passi nel CMS. Ogni passo può avere un'etichetta (`tag`) accanto al numero, per esempio "Gratis" o il prezzo.
 - Pagina stile: i contenuti propri di ogni stile stanno nel documento `style` (gruppo "Pagina dello stile"); titoli di sezione e pulsanti comuni a tutte le pagine stanno in `stylePage`. I testi di partenza per stile sono in `styleDetails` dei due fallback (per ora solo il Minimalismo razionalista, come bozza).
@@ -97,8 +101,9 @@ sanity.config.ts            Studio: struttura, singleton, azioni
 ## Da fare
 
 - Dopo l'unione del sito bilingue: premere "Converti i testi in italiano e inglese" sulla Home page nello Studio; rivedere le bozze inglesi.
-- Contenuti: prezzo, politica di revisione o rimborso (FAQ "E se non mi piace il piano?"), link Cal.com, foto dell'hero, foto di copertina degli stili.
+- Contenuti: prezzo, politica di revisione o rimborso (FAQ "E se non mi piace il piano?"), link Cal.com (evento con domande `stile` e `stanza`), foto dell'hero, foto di copertina degli stili.
+- Aggiornare al nuovo modello (consulenza gratuita, piano a pagamento) i testi che parlano ancora di "consulenza e piano inclusi" (sezione Prezzo) e di rimborso.
+- SEO: sitemap, robots.txt, immagine di condivisione (Open Graph), dati strutturati, favicon, descrizione per Google delle pagine stile, dominio proprio.
 - Contenuti delle pagine stile: foto, "In breve", "Fa per te se", piano di esempio per ogni stile; rivedere la bozza del Minimalismo razionalista.
-- Pagamento con Stripe Checkout, seguito dalla prenotazione su Cal.com.
 - Questionario pre-consulenza (misure, foto, budget, cosa c'è già) e generazione con l'IA di una bozza del piano a partire da un catalogo di prodotti nel CMS, da rivedere prima dell'invio.
 - Fatturazione elettronica (per esempio Fatture in Cloud) e informativa GDPR per le foto delle case.

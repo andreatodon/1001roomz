@@ -14,7 +14,14 @@ export type StarterDoc = { _id: string; _type: string; [field: string]: unknown 
  * recuperare l'inglese durante la conversione dei documenti già nel CMS.
  */
 export function plainStarterDocuments(lang: Lang): StarterDoc[] {
-  const { home: h, styles: fallbackStyles, settings, stylePage: labels, styleDetails } = fallbacks[lang]
+  const {
+    home: h,
+    styles: fallbackStyles,
+    settings,
+    stylePage: labels,
+    styleDetails,
+    bookingPage: booking,
+  } = fallbacks[lang]
   const minimal = fallbackStyles.find((s) => s.slug === 'minimalismo-razionalista')!
 
   const styles = fallbackStyles.map((s, i) => {
@@ -81,7 +88,14 @@ export function plainStarterDocuments(lang: Lang): StarterDoc[] {
 
   const stylePage = { _id: 'stylePage', _type: 'stylePage', ...labels }
 
-  return [...styles, homePage, siteSettings, stylePage]
+  const bookingPage = {
+    _id: 'bookingPage',
+    _type: 'bookingPage',
+    ...booking,
+    faqs: booking.faqs.map((f, i) => ({ _key: key(i), _type: 'faq', ...f })),
+  }
+
+  return [...styles, homePage, siteSettings, stylePage, bookingPage]
 }
 
 export const convertToBilingual = makeConverter(schemaTypes)

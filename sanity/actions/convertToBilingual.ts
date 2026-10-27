@@ -4,7 +4,7 @@ import { convertToBilingual, docTypeFor, plainStarterDocuments, type StarterDoc 
 import { apiVersion } from '../env'
 import { isPreviewStudio } from '../lib/studioEnv'
 
-const TYPES = ['homePage', 'siteSettings', 'stylePage', 'style']
+const TYPES = ['homePage', 'siteSettings', 'stylePage', 'bookingPage', 'style']
 const QUERY = `*[_type in $types]`
 
 type Doc = StarterDoc & { _rev?: string; slug?: { current?: string } }

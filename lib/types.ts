@@ -47,6 +47,33 @@ export type StyleDetail = Style & {
   examplePlan?: StylePlan | null
 }
 
+/** Testi della pagina di prenotazione e della conferma. */
+export type BookingPageLabels = {
+  breadcrumb: string
+  eyebrow: string
+  title: string
+  intro: string
+  styleLabel: string
+  changeStyle: string
+  styleNote: string
+  noStyleTitle: string
+  noStyleText: string
+  browseStyles: string
+  stepsTitle: string
+  footNote: string
+  unavailableText: string
+  faqTitle: string
+  faqs: { _key?: string; question: string; answer: string }[]
+  confirmEyebrow: string
+  confirmTitle: string
+  confirmText: string
+  confirmStepsTitle: string
+  backLabel: string
+  otherStylesLabel: string
+  metaTitle: string
+  metaDescription: string
+}
+
 /** Testi uguali per tutte le pagine stile. */
 export type StylePageLabels = {
   breadcrumb: string

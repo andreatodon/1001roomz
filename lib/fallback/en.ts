@@ -1,4 +1,4 @@
-import type { HomePage, SiteSettings, Style, StyleDetail, StylePageLabels } from '../types'
+import type { BookingPageLabels, HomePage, SiteSettings, Style, StyleDetail, StylePageLabels } from '../types'
 import type { StarterContent } from './index'
 
 /**
@@ -244,10 +244,52 @@ const fallbackStyleDetails: Record<string, Partial<StyleDetail>> = {
   },
 }
 
+const fallbackBookingPage: BookingPageLabels = {
+  breadcrumb: 'Book',
+  eyebrow: 'Free consultation · 30 minutes',
+  title: 'Book the consultation.',
+  intro:
+    'A video call to get to know you and your room. You pay nothing. Afterwards, you decide whether you want the plan.',
+  styleLabel: 'The style you chose',
+  changeStyle: 'Change',
+  styleNote: 'Not sure? Leave it: we can change it during the consultation.',
+  noStyleTitle: 'We’ll choose it together',
+  noStyleText: 'You don’t need a style yet. We’ll talk it through in the consultation, starting from your room.',
+  browseStyles: 'Browse the styles',
+  stepsTitle: 'How it works',
+  footNote: 'You pay nothing now. After the consultation there’s no obligation to continue.',
+  unavailableText: '[Calendar not connected yet: add the Cal.com link in Impostazioni → Link di prenotazione]',
+  faqTitle: 'Before you book',
+  faqs: [
+    {
+      question: 'When do I pay?',
+      answer: 'Only if, after the consultation, you want the plan. We email you the amount and bank transfer details.',
+    },
+    {
+      question: 'Can I reschedule or cancel?',
+      answer: 'Yes, from the link in the confirmation email. We just ask you to do it before the call.',
+    },
+    {
+      question: 'What do I need for the call?',
+      answer: 'A phone or a computer. If you can, join from the room: you can show it to us as we talk.',
+    },
+  ],
+  confirmEyebrow: 'Booking confirmed',
+  confirmTitle: 'See you soon.',
+  confirmText: 'We’ve emailed you the date, time and video call link. You can reschedule or cancel from there too.',
+  confirmStepsTitle: 'What happens now',
+  backLabel: 'Back to the site',
+  otherStylesLabel: 'See the other styles',
+  metaTitle: 'Book the consultation · 1001 Rooms',
+  metaDescription:
+    'A free 30-minute video consultation. Afterwards, you decide whether you want the plan for your room.',
+}
+
 export const en: StarterContent = {
   styles: fallbackStyles,
   home: fallbackHome,
   settings: fallbackSettings,
   stylePage: fallbackStylePage,
+  bookingPage: fallbackBookingPage,
   styleDetails: fallbackStyleDetails,
 }

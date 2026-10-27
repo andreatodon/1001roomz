@@ -16,7 +16,7 @@ export function SiteHeader({ lang, settings, alternateHref, onHome = false }: He
   const ui = uiFor(lang)
   const other = otherLang(lang)
   const section = (anchor: string) => paths.section(lang, anchor, onHome)
-  const booking = bookingLink(settings, { fallback: section('prezzo') })
+  const booking = bookingLink(lang)
   return (
     <header className="nav">
       <div className="container nav-inner">

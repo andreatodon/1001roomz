@@ -28,8 +28,8 @@ function galleryClass(n: number) {
 export function StyleDetailPage({ lang, style, styles, labels, settings }: StylePageData) {
   const ui = uiFor(lang)
   const homeSection = (anchor: string) => paths.section(lang, anchor)
-  const book = bookingLink(settings, { style: style.title, fallback: homeSection('prezzo') })
-  const unsure = bookingLink(settings, { fallback: homeSection('prezzo') })
+  const book = bookingLink(lang, { style: style.slug })
+  const unsure = bookingLink(lang)
 
   const index = styles.findIndex((s) => s.slug === style.slug)
   const counter =

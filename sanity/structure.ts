@@ -10,6 +10,10 @@ export const structure: StructureResolver = (S) =>
         .title('Pagina stile (testi comuni)')
         .id('stylePage')
         .child(S.document().schemaType('stylePage').documentId('stylePage')),
+      S.listItem()
+        .title('Pagina prenotazione')
+        .id('bookingPage')
+        .child(S.document().schemaType('bookingPage').documentId('bookingPage')),
       S.divider(),
       S.listItem()
         .title('Impostazioni')

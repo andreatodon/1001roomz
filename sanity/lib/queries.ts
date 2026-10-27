@@ -76,6 +76,32 @@ export const styleBySlugQuery = groq`*[_type == "style" && slug.current == $slug
   examplePlan { title, text, items[] { _key, title, note, price }, total }
 }`
 
+export const bookingPageQuery = groq`*[_type == "bookingPage"][0] {
+  breadcrumb,
+  eyebrow,
+  title,
+  intro,
+  styleLabel,
+  changeStyle,
+  styleNote,
+  noStyleTitle,
+  noStyleText,
+  browseStyles,
+  stepsTitle,
+  footNote,
+  unavailableText,
+  faqTitle,
+  faqs,
+  confirmEyebrow,
+  confirmTitle,
+  confirmText,
+  confirmStepsTitle,
+  backLabel,
+  otherStylesLabel,
+  metaTitle,
+  metaDescription
+}`
+
 export const stylePageQuery = groq`*[_type == "stylePage"][0] {
   breadcrumb,
   counter,

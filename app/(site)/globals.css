@@ -1027,6 +1027,203 @@ a.style-card:focus-visible {
   font-size: 14px;
 }
 
+/* Pagina prenotazione */
+.bp-head {
+  padding-bottom: 56px;
+}
+.bp-title {
+  max-width: 760px;
+}
+.bp-intro {
+  max-width: 600px;
+}
+.bp-body {
+  padding-bottom: 96px;
+}
+.bp-grid {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  grid-template-areas:
+    'style cal'
+    'steps cal';
+  grid-template-rows: auto 1fr;
+  column-gap: 64px;
+  row-gap: 48px;
+  align-items: start;
+}
+.bp-area-style {
+  grid-area: style;
+}
+.bp-area-steps {
+  grid-area: steps;
+}
+.bp-area-cal {
+  grid-area: cal;
+}
+.bp-label {
+  color: var(--muted);
+}
+.bp-style {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 20px 24px;
+  border: 1px solid var(--line);
+}
+.bp-style-visual {
+  position: relative;
+  flex: none;
+  width: 72px;
+  height: 72px;
+  overflow: hidden;
+  background: var(--paper-2);
+}
+.bp-style-visual img {
+  object-fit: cover;
+}
+.bp-style-shape {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: scale(0.55);
+}
+.bp-style-text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.bp-style-text h2 {
+  font-size: 18px;
+  font-weight: 600;
+}
+.bp-change {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-size: 14px;
+}
+.bp-steps-title {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+.bp-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.bp-steps li {
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  gap: 8px;
+  padding: 20px 0;
+  border-top: 1px solid var(--line);
+}
+.bp-steps li:last-child {
+  border-bottom: 1px solid var(--line);
+}
+.bp-steps li.is-current {
+  border-top-color: var(--ink);
+}
+.bp-step-num {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 24px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--muted);
+}
+.bp-steps li.is-current .bp-step-num {
+  color: var(--ink);
+}
+.bp-step-num .diamond,
+.bp-step-num .diamond-fill {
+  width: 10px;
+  height: 10px;
+}
+.bp-step-body {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.bp-step-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+.bp-step-head h3 {
+  font-size: 17px;
+  line-height: 24px;
+}
+.bp-cal {
+  position: relative;
+  min-height: 640px;
+  border: 1px solid var(--ink);
+}
+.bp-cal-frame {
+  position: relative;
+  width: 100%;
+}
+.bp-cal-loading {
+  position: absolute;
+  inset: 0;
+  background: var(--paper-2);
+}
+.bp-cal-missing {
+  min-height: 360px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+  text-align: center;
+  background: var(--paper-2);
+  border-color: var(--line);
+  color: var(--muted);
+}
+.bp-faq-title {
+  margin-bottom: 40px;
+}
+.bp-faq {
+  display: grid;
+  grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr));
+  gap: 40px;
+}
+.bp-faq-item {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 20px;
+  border-top: 1px solid var(--ink);
+}
+.bp-faq-item h3 {
+  font-size: 17px;
+}
+.bp-confirm-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.bp-confirm-eyebrow .diamond-fill {
+  width: 10px;
+  height: 10px;
+}
+.bp-confirm-style {
+  margin-top: 8px;
+}
+.bp-confirm-next {
+  padding-top: 36px;
+}
+.bp-confirm-next .hero-actions {
+  margin-top: 32px;
+}
+
 /* Responsive */
 @media (max-width: 1100px) {
   .styles-grid {
@@ -1125,6 +1322,24 @@ a.style-card:focus-visible {
   }
   .sp-others {
     grid-template-columns: 1fr;
+  }
+  .bp-grid {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      'style'
+      'cal'
+      'steps';
+    row-gap: 40px;
+  }
+  .bp-faq {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .bp-cal {
+    min-height: 560px;
+  }
+  .bp-confirm-next {
+    padding-top: 0;
   }
 }
 

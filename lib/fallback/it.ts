@@ -1,4 +1,4 @@
-import type { HomePage, SiteSettings, Style, StyleDetail, StylePageLabels } from '../types'
+import type { BookingPageLabels, HomePage, SiteSettings, Style, StyleDetail, StylePageLabels } from '../types'
 import type { StarterContent } from './index'
 
 /**
@@ -251,10 +251,53 @@ const fallbackStyleDetails: Record<string, Partial<StyleDetail>> = {
   },
 }
 
+/** Testi della pagina di prenotazione e della conferma. */
+const fallbackBookingPage: BookingPageLabels = {
+  breadcrumb: 'Prenota',
+  eyebrow: 'Consulenza gratuita · 30 minuti',
+  title: 'Prenota la consulenza.',
+  intro: 'Una videochiamata per conoscere te e la tua stanza. Non paghi niente. Dopo decidi tu se vuoi il piano.',
+  styleLabel: 'Lo stile che hai scelto',
+  changeStyle: 'Cambia',
+  styleNote: 'Non sei sicuro? Lascialo così: in consulenza possiamo cambiarlo.',
+  noStyleTitle: 'Lo scegliamo insieme',
+  noStyleText: 'Non serve avere già uno stile. Ne parliamo in consulenza, partendo dalla tua stanza.',
+  browseStyles: 'Guarda gli stili',
+  stepsTitle: 'Come funziona',
+  footNote: 'Non paghi niente adesso. Dopo la consulenza non sei obbligato a proseguire.',
+  unavailableText: '[Calendario non ancora collegato: aggiungi il link Cal.com in Impostazioni → Link di prenotazione]',
+  faqTitle: 'Prima di prenotare',
+  faqs: [
+    {
+      question: 'Quando pago?',
+      answer: 'Solo se, dopo la consulenza, vuoi il piano. Ti mandiamo importo e dati per il bonifico via email.',
+    },
+    {
+      question: 'Posso spostare o annullare?',
+      answer: 'Sì, dal link nell’email di conferma. Ti chiediamo solo di farlo prima della chiamata.',
+    },
+    {
+      question: 'Cosa mi serve per la chiamata?',
+      answer: 'Un telefono o un computer. Se puoi, collegati dalla stanza: ce la fai vedere mentre ne parliamo.',
+    },
+  ],
+  confirmEyebrow: 'Prenotazione confermata',
+  confirmTitle: 'Ci vediamo presto.',
+  confirmText:
+    'Ti abbiamo mandato un’email con data, ora e link della videochiamata. Da lì puoi anche spostarla o annullarla.',
+  confirmStepsTitle: 'Cosa succede adesso',
+  backLabel: 'Torna al sito',
+  otherStylesLabel: 'Guarda gli altri stili',
+  metaTitle: 'Prenota la consulenza · 1001 Rooms',
+  metaDescription:
+    'Consulenza gratuita di 30 minuti in videochiamata. Dopo decidi tu se vuoi il piano per la tua stanza.',
+}
+
 export const it: StarterContent = {
   styles: fallbackStyles,
   home: fallbackHome,
   settings: fallbackSettings,
   stylePage: fallbackStylePage,
+  bookingPage: fallbackBookingPage,
   styleDetails: fallbackStyleDetails,
 }
