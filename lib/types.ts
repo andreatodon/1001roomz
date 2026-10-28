@@ -62,6 +62,11 @@ export type BookingPageLabels = {
   stepsTitle: string
   footNote: string
   unavailableText: string
+  consultantLabel: string
+  consultantName: string
+  consultantRole: string
+  /** Foto dal CMS. Se manca si usa /consulente.jpg. */
+  consultantPhoto?: SanityImage
   faqTitle: string
   faqs: { _key?: string; question: string; answer: string }[]
   confirmEyebrow: string

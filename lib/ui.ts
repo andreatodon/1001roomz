@@ -19,6 +19,7 @@ const ui = {
     heroPlaceholder: '[Foto hero: caricala dal CMS in Home page → Hero → Foto della stanza]',
     calendarLabel: 'Calendario delle prenotazioni',
     calendarLoading: 'Carico il calendario',
+    portraitAlt: 'Foto di',
   },
   en: {
     navLabel: 'Main',
@@ -34,6 +35,7 @@ const ui = {
     heroPlaceholder: '[Hero photo: upload it in the CMS under Home page → Hero → Foto della stanza]',
     calendarLabel: 'Booking calendar',
     calendarLoading: 'Loading the calendar',
+    portraitAlt: 'Photo of',
   },
 } satisfies Record<Lang, Record<string, string>>
 

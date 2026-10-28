@@ -1,10 +1,12 @@
 import type { CSSProperties } from 'react'
+import Image from 'next/image'
 import type { BookingPageData } from '@/lib/content'
 import { calEmbedFrom } from '@/lib/booking'
 import { otherLang, paths } from '@/lib/i18n'
 import { ROOMS, isRoomKey } from '@/lib/rooms'
 import { uiFor } from '@/lib/ui'
-import type { HomePage } from '@/lib/types'
+import type { BookingPageLabels, HomePage } from '@/lib/types'
+import type { UiStrings } from '@/lib/ui'
 import { CalEmbed } from './CalEmbed'
 import { SanityPicture, hasImage } from './SanityPicture'
 import { StyleShape } from './Shapes'
@@ -37,6 +39,30 @@ function Steps({ steps, from = 1 }: { steps: HomePage['howItWorks']['steps']; fr
         )
       })}
     </ol>
+  )
+}
+
+/** Chi fa la consulenza: foto, nome e ruolo, sopra il calendario. */
+function Consultant({ labels, ui }: { labels: BookingPageLabels; ui: UiStrings }) {
+  if (!labels.consultantName) return null
+  const alt = `${ui.portraitAlt} ${labels.consultantName}`
+  return (
+    <div className="stack" style={{ gap: 12 }}>
+      <p className="eyebrow bp-label">{labels.consultantLabel}</p>
+      <div className="bp-consultant">
+        <div className="bp-portrait">
+          {hasImage(labels.consultantPhoto) ? (
+            <SanityPicture image={labels.consultantPhoto} width={192} height={192} sizes="96px" fallbackAlt={alt} />
+          ) : (
+            <Image src="/consulente.jpg" alt={alt} fill sizes="96px" />
+          )}
+        </div>
+        <div className="bp-style-text">
+          <h2>{labels.consultantName}</h2>
+          {labels.consultantRole && <p className="small muted">{labels.consultantRole}</p>}
+        </div>
+      </div>
+    </div>
   )
 }
 
@@ -125,6 +151,7 @@ export function BookingPage({ lang, labels, home, style, settings, room }: Props
             </div>
 
             <div className="stack bp-area-cal" style={{ gap: 16 }}>
+              <Consultant labels={labels} ui={ui} />
               {cal ? (
                 <CalEmbed
                   origin={cal.origin}

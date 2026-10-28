@@ -1107,6 +1107,26 @@ a.style-card:focus-visible {
   min-height: 44px;
   font-size: 14px;
 }
+.bp-consultant {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 20px 24px;
+  border: 1px solid var(--line);
+}
+/* Il ritratto è l'unico elemento tondo del sito, come nel riferimento. */
+.bp-portrait {
+  position: relative;
+  flex: none;
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--paper-2);
+}
+.bp-portrait img {
+  object-fit: cover;
+}
 .bp-steps-title {
   font-size: 28px;
   font-weight: 700;

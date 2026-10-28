@@ -8,6 +8,7 @@ export const bookingPage = defineType({
   type: 'document',
   groups: [
     { name: 'page', title: 'Prenotazione', default: true },
+    { name: 'consultant', title: 'Consulente' },
     { name: 'faq', title: 'Domande' },
     { name: 'confirm', title: 'Conferma' },
     { name: 'seo', title: 'Motori di ricerca' },
@@ -39,6 +40,28 @@ export const bookingPage = defineType({
       ),
       group: 'page',
     },
+    {
+      ...ls('consultantLabel', 'Etichetta', 'Sopra il nome, per esempio "La tua consulenza con".'),
+      group: 'consultant',
+    },
+    defineField({
+      name: 'consultantName',
+      title: 'Nome',
+      description: 'Uguale nelle due lingue.',
+      type: 'string',
+      group: 'consultant',
+    }),
+    { ...ls('consultantRole', 'Ruolo', 'Per esempio "Architetta e progettista".'), group: 'consultant' },
+    defineField({
+      name: 'consultantPhoto',
+      title: 'Foto',
+      description:
+        'Quadrata, viso al centro: viene mostrata in un cerchio. Se è vuota si usa la foto di partenza del sito.',
+      type: 'image',
+      group: 'consultant',
+      options: { hotspot: true },
+      fields: [ls('alt', 'Testo alternativo')],
+    }),
     { ...ls('faqTitle', 'Titolo delle domande'), group: 'faq' },
     defineField({
       name: 'faqs',

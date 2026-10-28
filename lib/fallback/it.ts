@@ -266,6 +266,9 @@ const fallbackBookingPage: BookingPageLabels = {
   stepsTitle: 'Come funziona',
   footNote: 'Non paghi niente adesso. Dopo la consulenza non sei obbligato a proseguire.',
   unavailableText: '[Calendario non ancora collegato: aggiungi il link Cal.com in Impostazioni → Link di prenotazione]',
+  consultantLabel: 'La tua consulenza con',
+  consultantName: 'Kristine Macatangay',
+  consultantRole: 'Architetta e progettista',
   faqTitle: 'Prima di prenotare',
   faqs: [
     {
